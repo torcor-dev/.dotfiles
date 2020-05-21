@@ -1,0 +1,9 @@
+" General Settings
+set configversion 1.9
+set update.lastchecktime 1589990720883
+set theme dark
+set hintfiltermode simple
+set hintnames uniform
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
