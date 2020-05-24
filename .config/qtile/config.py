@@ -27,11 +27,12 @@
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.lazy import lazy
 from libqtile import layout, bar, widget, hook
+from libqtile.widget import sep
 
 from typing import List  # noqa: F401
+
 import os
 import subprocess
-
 mod = "mod4"
 
 keys = [
@@ -86,8 +87,8 @@ for i in groups:
 #         'label': 'TsTerm',
 #         }
 # Play Group    0 
-emby = 'chromium --app=http://148.251.180.212:8096/ --new-window --incognito'
-madsonic = 'chromium --app=http://148.251.180.212:4040/ --new-window --incognito'
+emby = 'chromium --app=http://148.251.180.212:8096/ --new-window'
+madsonic = 'chromium --app=http://148.251.180.212:4040/ --new-window'
 groups.append(Group('play', spawn=[emby, madsonic], layout='monadtall', init=True, label='play'))
 keys.append(Key([mod], '0', lazy.group['play'].toscreen()))
 
@@ -95,7 +96,7 @@ keys.append(Key([mod], '0', lazy.group['play'].toscreen()))
 # grp1 = Group('
 
 layout_theme = {"border_width": 2,
-                "margin": 6,
+                "margin": 10,
                 "border_focus": "e1acff",
                 "border_normal": "1D2330"
                 }
@@ -131,6 +132,7 @@ screens = [
                 widget.GroupBox(),
                 widget.Prompt(),
                 widget.WindowName(),
+                #widget.TaskList(),
                 widget.TextBox("default config", name="default"),
                 widget.Systray(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
@@ -147,8 +149,13 @@ screens = [
                 widget.GroupBox(),
                 widget.Prompt(),
                 widget.WindowName(),
+                widget.debuginfo.DebugInfo(),
+                #widget.Sep(),
+                #widget.pacman.Pacman(),
+                #widget.Sep(),
+                #widget.Pomodoro(),
+                #widget.Sep(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.QuickExit(),
             ],
             25,
             opacity=0.5,
