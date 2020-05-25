@@ -32,20 +32,27 @@ call plug#begin('$HOME/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
+Plug 'chrisbra/Colorizer'
+Plug 'davidhalter/jedi-vim'
+Plug 'vim-python/python-syntax'
 call plug#end()
 
 let g:dracula_colorterm = 0
 colorscheme dracula
 
-nmap <silent> gd <Plug>(coc-definition)
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
+let g:python_highlight_all = 1
+
+"nmap <silent> gd <Plug>(coc-definition)
 "nmap <silent> gy <Plug>(coc-type-definition)
 "nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+"nmap <silent> gr <Plug>(coc-references)
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
