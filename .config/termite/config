@@ -51,12 +51,14 @@ scrollback_lines = 10000
 #foreground = #dcdccc
 #foreground_bold = #ffffff
 #background = #3f3f3f
-foreground = #bbc5ff
-foreground_bold = #bbc5ff
-cursor = #bbc5ff
+#foreground = #000
+foreground = #ff5e6c
+foreground_bold = #ff5e6c
+cursor = #ffaaab
 
 # 20% background transparency (requires a compositor)
-background = rgba(40, 42, 54, 0.85)
+#background = rgba(255, 94, 108, 0.85) 
+background = rgba(255, 245, 216, 0.85)
 
 # If unset, will reverse foreground and background
 #highlight = #2f2f2f
@@ -80,22 +82,28 @@ background = rgba(40, 42, 54, 0.85)
 #color15 = #ffffff
 
 color0 = #101010
-color1 = #f07178
-color2 = #c3e88d
-color3 = #ffcb6b
-color4 = #82aaff
-color5 = #c792ea
-color6 = #89ddff
-color7 = #d0d0d0
-color8 = #434758
-color9 = #ff8b92
-color10 = #ddffa7
-color11 = #ffe585
-color12 = #9cc4ff
-color13 = #e1acff
-color14 = #a3f7ff
-color15 = #ffffff
+color1 = #ff5e6c
+color2 = #00875f
+color3 = #feb301
+color4 = #875fff
+color5 = #af5f87
+color6 = #afd7ff
+color7 = #dcdccc
+color8 = #870000
+color9 = #ff5f87
+color10 = #00af5f
+color11 = #ffff5f
+color12 = #d787d7
+color13 = #ffaaab
+color14 = #d7afff
+color15 = #fff5d8
 
+#fff5d8
+#ff5e6c
+#feb301
+#ffaaab
+#000000
+#ffffff
 
 #[hints]
 #font = Monospace 12
