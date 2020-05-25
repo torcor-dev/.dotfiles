@@ -24,15 +24,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# SCREEN_SIZE=1920x1080 ./scripts/xephyr -c ~/.config/qtile/dev_config.py   
+
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.lazy import lazy
 from libqtile import layout, bar, widget, hook
-from libqtile.widget import sep
 
 from typing import List  # noqa: F401
 
 import os
 import subprocess
+
+# COLORS
+BEIGE       = "#fff5d8"
+RED         = "#ff5e6c"
+YELLOW      = "#feb301"
+PINK        = "#ffaaab"
+DARK_TEXT   = "#000000"
+LIGHT_TEXT  = "#ffffff"
+
 mod = "mod4"
 
 keys = [
@@ -87,18 +97,18 @@ for i in groups:
 #         'label': 'TsTerm',
 #         }
 # Play Group    0 
-emby = 'chromium --app=http://148.251.180.212:8096/ --new-window'
-madsonic = 'chromium --app=http://148.251.180.212:4040/ --new-window'
-groups.append(Group('play', spawn=[emby, madsonic], layout='monadtall', init=True, label='play'))
-keys.append(Key([mod], '0', lazy.group['play'].toscreen()))
+#emby = 'chromium --app=http://148.251.180.212:8096/ --new-window'
+#madsonic = 'chromium --app=http://148.251.180.212:4040/ --new-window'
+#groups.append(Group('play', spawn=[emby, madsonic], layout='monadtall', init=True, label='play'))
+#keys.append(Key([mod], '0', lazy.group['play'].toscreen()))
 
 # Main firefox  1
 # grp1 = Group('
 
 layout_theme = {"border_width": 2,
                 "margin": 10,
-                "border_focus": "e1acff",
-                "border_normal": "1D2330"
+                "border_focus": RED,
+                "border_normal": PINK
                 }
 
 layouts = [
@@ -123,43 +133,128 @@ widget_defaults = dict(
     padding=2,
 )
 extension_defaults = widget_defaults.copy()
+# cherry = "🌸"
+# white_flower = "💮"
+# onigiri = "🍙"
+# Cooked rice: 🍚
+separator_emoji = "💮"
 
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                #widget.TaskList(),
-                widget.TextBox("default config", name="default"),
-                widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.QuickExit(),
+                widget.CurrentLayoutIcon(background=PINK),
+                widget.GroupBox(
+                    background=RED,
+                    active=BEIGE,
+                    inactive=PINK,
+                    block_highlight_text_color=BEIGE,
+                    disable_drag=True,
+                    highlight_color=[RED, YELLOW],
+                    highlight_method="line",
+                    other_current_screen_border=YELLOW,
+                    other_screen_border=YELLOW,
+                    this_current_screen_border=PINK,
+                    this_screen_border=PINK,
+                    urgent_alert_method='text',
+                    urgent_text=YELLOW,
+                    
+                    ),
+                widget.WindowName(foreground=RED),
+                widget.Cmus(
+                    background=RED,
+                    play_color=BEIGE, 
+                    noplay_color=PINK,
+                    fmt="[{}]",
+                    ),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
+                widget.CheckUpdates(background=PINK, display_format="[up: {updates}]"),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+                widget.Wlan(
+                    background=RED, 
+                    foreground=BEIGE, 
+                    interface="wlp59s0", 
+                    format="{percent:2.0%}",
+                    fmt="[wifi: {}]"
+                    ),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
+                widget.Clock(
+                    background=PINK, 
+                    foreground=BEIGE, 
+                    format='%H:%M',
+                    fmt="[{}]",
+                    ),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+                widget.KeyboardLayout(
+                    background=RED,
+                    foreground=BEIGE,
+                    configured_keyboards=['us', 'no'],
+                    fmt="[{}]",
+                    ),
+                widget.Systray(background=PINK),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
             ],
-            24,
-        opacity=0.5,
-        background='#221122'),
+            25,
+        opacity=1,
+        background=BEIGE),
     ),
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.debuginfo.DebugInfo(),
-                #widget.Sep(),
-                #widget.pacman.Pacman(),
-                #widget.Sep(),
-                #widget.Pomodoro(),
-                #widget.Sep(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
+                widget.CurrentLayoutIcon(background=PINK),
+                widget.GroupBox(
+                    background=RED,
+                    active=BEIGE,
+                    inactive=PINK,
+                    block_highlight_text_color=BEIGE,
+                    disable_drag=True,
+                    highlight_color=[RED, YELLOW],
+                    highlight_method="line",
+                    other_current_screen_border=YELLOW,
+                    other_screen_border=YELLOW,
+                    this_current_screen_border=PINK,
+                    this_screen_border=PINK,
+                    urgent_alert_method='text',
+                    urgent_text=YELLOW,
+                    
+                    ),
+                widget.WindowName(foreground=RED),
+                widget.Cmus(
+                    background=RED,
+                    play_color=BEIGE, 
+                    noplay_color=PINK,
+                    fmt="[{}]",
+                    ),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
+                widget.CheckUpdates(background=PINK, display_format="[up: {updates}]"),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+                widget.Wlan(
+                    background=RED, 
+                    foreground=BEIGE, 
+                    interface="wlp59s0", 
+                    format="{percent:2.0%}",
+                    fmt="[wifi: {}]"
+                    ),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
+                widget.Clock(
+                    background=PINK, 
+                    foreground=BEIGE, 
+                    format='%H:%M',
+                    fmt="[{}]",
+                    ),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+                widget.KeyboardLayout(
+                    background=RED,
+                    foreground=BEIGE,
+                    configured_keyboards=['us', 'no'],
+                    fmt="[{}]",
+                    ),
+                widget.Systray(background=PINK),
+                widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
             ],
             25,
-            opacity=0.5,
-            background='#221122'),
+        opacity=0.9,
+        background=BEIGE),
     ),
 ]
 # Drag floating layouts.

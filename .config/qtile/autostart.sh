@@ -1,4 +1,4 @@
 #!/bin/zsh
 picom &
 nitrogen --restore &
-blueman-applet &
+blueman-tray &
