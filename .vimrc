@@ -31,18 +31,22 @@ call plug#begin('$HOME/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'dracula/vim', { 'as': 'dracula' }
+"Plug 'dracula/vim', { 'as': 'dracula' }
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+"Plug 'altercation/vim-colors-solarized'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-python/python-syntax'
+Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
-let g:dracula_colorterm = 0
-colorscheme dracula
+"let g:dracula_colorterm = 0
+set background=light
+"let g:solarized_termcolors=256
+"let g:solarized_termtrans=1
+colorscheme solarized8_flat
 
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
@@ -72,7 +76,7 @@ let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.dirty='⚡'
 
-let g:airline_theme='dracula'
+let g:airline_theme='fruit_punch'
 
 " FZF
 
