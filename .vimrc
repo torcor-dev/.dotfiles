@@ -5,12 +5,14 @@ set clipboard=unnamed
 set nu " line numbers
 set relativenumber
 set tabstop=4
-set softtabstop=4
 set shiftwidth=4
 set expandtab " turn tabs into spaces
 set autoindent
+set smartindent
 set backspace=indent,eol,start "delete in insert
 set hlsearch
+set ignorecase
+set smartcase
 
 let mapleader = ' '
 
@@ -59,17 +61,17 @@ let g:python_highlight_all = 1
 "nmap <silent> gr <Plug>(coc-references)
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+"let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
 " powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+"let g:airline_left_sep = ''
+"let g:airline_left_alt_sep = ''
+"let g:airline_right_sep = ''
+"let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = '☰'
