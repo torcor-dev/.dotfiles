@@ -108,7 +108,8 @@ alias config='/usr/bin/git --git-dir=/home/fu/.dotfiles/ --work-tree=/home/fu'
 alias rm="rm -i"
 alias mv="mv -i"
 alias gs="git status"
-
+alias mk='make CXXFLAGS="-std=c++17 -pedantic -Wall -Wextra"'
+alias mka='g++ *.cpp -pedantic -Wall -Wextra -std=c++17 -o exe && ./exe'
 bindkey '\es' fzf-cd-widget
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

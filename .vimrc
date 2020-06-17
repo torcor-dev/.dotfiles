@@ -1,6 +1,6 @@
 set nocompatible
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set nu " line numbers
 set relativenumber
