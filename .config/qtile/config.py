@@ -70,7 +70,7 @@ keys = [
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
-    Key([mod], "p", lazy.spawn("dmenu_run")),
+    Key([mod], "p", lazy.spawn("rofi -show run")),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -88,25 +88,11 @@ for i in groups:
         ]
     )
 
-# new_group = {
-#         'spawn': 'termite',
-#         'layout': 'monadtall',
-#         'label': 'TsTerm',
-#         }
-# Play Group    0
-# emby = 'chromium --app=http://148.251.180.212:8096/ --new-window'
-# madsonic = 'chromium --app=http://148.251.180.212:4040/ --new-window'
-# groups.append(Group('play', spawn=[emby, madsonic], layout='monadtall', init=True, label='play'))
-# keys.append(Key([mod], '0', lazy.group['play'].toscreen()))
-
-# Main firefox  1
-# grp1 = Group('
-
 layout_theme = {
     "border_width": 2,
     "margin": 10,
-    "border_focus": "e1acff",
-    "border_normal": "1D2330",
+    "border_focus": RED,
+    "border_normal": BEIGE,
 }
 
 layouts = [
@@ -153,27 +139,39 @@ def base_widgets():
             urgent_text=YELLOW,
         ),
         widget.WindowName(foreground=RED),
-        widget.Cmus(background=RED, play_color=PINK, noplay_color=INACTIVE, fmt="[{}]",),
-        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
-        widget.CheckUpdates(background=LIGHT_BG, display_format="[up: {updates}]"),
-        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+        widget.Cmus(background=LIGHT_BG, play_color=PINK, noplay_color=INACTIVE, fmt="[{}]",),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+        widget.CPU(background=RED, foreground=PINK, format="[CPU: {load_percent}% "),
+        widget.ThermalSensor(background=RED, foreground=PINK, fmt="{}]"),
+        widget.Memory(background=LIGHT_BG, foreground=PINK, format="[RAM: {MemUsed}M]"),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+        widget.DF(background=RED, foreground=PINK, visible_on_warn=False, format="[HDD: {f}/{s}{m}]"),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
         widget.Wlan(
-            background=RED,
+            background=LIGHT_BG,
             foreground=PINK,
             interface="wlp59s0",
             format="{percent:2.0%}",
-            fmt="[wifi: {}]",
+            fmt="[CON: {}]",
         ),
-        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
-        widget.Clock(background=LIGHT_BG, foreground=PINK, format="%H:%M", fmt="[{}]",),
-        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
-        widget.Systray(background=RED),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+        widget.Clock(background=RED, foreground=PINK, format="%H:%M", fmt="[{}]",),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
     ]
 
+
+laptop_widgets = base_widgets()
+laptop_widgets.extend((
+        widget.Battery(background=LIGHT_BG, foreground=PINK),
+        widget.Systray(background=RED),
+        ))
+
 screens = [
-    Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=BEIGE)),
+    Screen(top=bar.Bar(laptop_widgets, 25, opacity=0.9, background=BEIGE)),
     Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=BEIGE)),
 ]
+
 # Drag floating layouts.
 mouse = [
     Drag(
