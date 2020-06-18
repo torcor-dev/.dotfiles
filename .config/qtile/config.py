@@ -36,10 +36,12 @@ import os
 import subprocess
 
 # COLORS
-BEIGE = "#fff5d8"
-RED = "#ff5e6c"
-YELLOW = "#feb301"
-PINK = "#ffaaab"
+BEIGE = "#220932"#201f23"#100c18"#fff5d8"
+RED = "#5c4788"#ff5e6c"
+YELLOW = "#efafce"#d58a4d"#feb301"
+PINK = "#efafce"#ffaaab"
+INACTIVE = "#ad8fe5"
+LIGHT_BG = "#695988"
 DARK_TEXT = "#000000"
 LIGHT_TEXT = "#ffffff"
 
@@ -61,7 +63,7 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn("termite")),
+    Key([mod], "Return", lazy.spawn("alacritty")),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout()),
     Key([mod], "w", lazy.window.kill()),
@@ -134,12 +136,12 @@ separator_emoji = "💮"
 
 def base_widgets():
     return [
-        widget.CurrentLayoutIcon(background=PINK),
+        widget.CurrentLayoutIcon(background=LIGHT_BG),
         widget.GroupBox(
             background=RED,
-            active=BEIGE,
-            inactive=PINK,
-            block_highlight_text_color=BEIGE,
+            active=PINK,
+            inactive=INACTIVE,
+            block_highlight_text_color=PINK,
             disable_drag=True,
             highlight_color=[RED, YELLOW],
             highlight_method="line",
@@ -151,19 +153,19 @@ def base_widgets():
             urgent_text=YELLOW,
         ),
         widget.WindowName(foreground=RED),
-        widget.Cmus(background=RED, play_color=BEIGE, noplay_color=PINK, fmt="[{}]",),
-        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
-        widget.CheckUpdates(background=PINK, display_format="[up: {updates}]"),
+        widget.Cmus(background=RED, play_color=PINK, noplay_color=INACTIVE, fmt="[{}]",),
+        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
+        widget.CheckUpdates(background=LIGHT_BG, display_format="[up: {updates}]"),
         widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
         widget.Wlan(
             background=RED,
-            foreground=BEIGE,
+            foreground=PINK,
             interface="wlp59s0",
             format="{percent:2.0%}",
             fmt="[wifi: {}]",
         ),
-        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=PINK),
-        widget.Clock(background=PINK, foreground=BEIGE, format="%H:%M", fmt="[{}]",),
+        widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
+        widget.Clock(background=LIGHT_BG, foreground=PINK, format="%H:%M", fmt="[{}]",),
         widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
         widget.Systray(background=RED),
     ]

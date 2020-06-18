@@ -41,14 +41,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-python/python-syntax'
-Plug 'lifepillar/vim-solarized8'
+"Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
 "let g:dracula_colorterm = 0
-set background=light
+"set background=light
 "let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
-colorscheme solarized8_flat
+"colorscheme solarized8_flat
 
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
@@ -78,7 +78,7 @@ let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.dirty='⚡'
 
-let g:airline_theme='fruit_punch'
+let g:airline_theme='term'
 
 " FZF
 
