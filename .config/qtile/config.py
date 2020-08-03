@@ -36,10 +36,10 @@ import os
 import subprocess
 
 # COLORS
-BEIGE = "#220932"#201f23"#100c18"#fff5d8"
-RED = "#5c4788"#ff5e6c"
-YELLOW = "#efafce"#d58a4d"#feb301"
-PINK = "#efafce"#ffaaab"
+BEIGE = "#220932"  # 201f23"#100c18"#fff5d8"
+RED = "#5c4788"  # ff5e6c"
+YELLOW = "#efafce"  # d58a4d"#feb301"
+PINK = "#efafce"  # ffaaab"
 INACTIVE = "#ad8fe5"
 LIGHT_BG = "#695988"
 DARK_TEXT = "#000000"
@@ -73,7 +73,7 @@ keys = [
     Key([mod], "p", lazy.spawn("rofi -show run")),
 ]
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "1234567890"]
 
 for i in groups:
     keys.extend(
@@ -95,23 +95,34 @@ layout_theme = {
     "border_normal": BEIGE,
 }
 
+matrix_theme = {
+    "border_width": 1,
+    "margin": 2,
+    "border_focus": RED,
+    "border_normal": BEIGE,
+}
+
+groups[9].layouts = [layout.Matrix(columns=3, **matrix_theme)]
+groups[9].label = "serv"
+
 layouts = [
     layout.MonadTall(**layout_theme),
     layout.Max(**layout_theme),
-    #layout.Stack(num_stacks=2),
+    # layout.Stack(num_stacks=2),
     # Try more layouts by unleashing below layouts.
     # layout.Bsp(),
     # layout.Columns(),
-    # layout.Matrix(),
+    # layout.Matrix(columns=3, **layout_theme),
     # layout.MonadWide(),
     # layout.RatioTile(),
-    #layout.Tile(shift_window=True, **layout_theme),
+    # layout.Tile(shift_window=True, **layout_theme),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
 
-widget_defaults = dict(font="Monospace", fontsize=14, padding=2,)
+
+widget_defaults = dict(font="Source Code Pro", fontsize=14, padding=2,)
 extension_defaults = widget_defaults.copy()
 # cherry = "🌸"
 # white_flower = "💮"
@@ -139,21 +150,32 @@ def base_widgets():
             urgent_text=YELLOW,
         ),
         widget.WindowName(foreground=RED),
-        widget.Cmus(background=LIGHT_BG, play_color=PINK, noplay_color=INACTIVE, fmt="[{}]",),
+        widget.Cmus(
+            background=LIGHT_BG,
+            play_color=PINK,
+            noplay_color=INACTIVE,
+            max_chars=50,
+            fmt="[{}]",
+        ),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
-        widget.CPU(background=RED, foreground=PINK, format="[CPU: {load_percent}% "),
+        widget.CPU(background=RED, foreground=PINK, format="[cpu: {load_percent}% "),
         widget.ThermalSensor(background=RED, foreground=PINK, fmt="{}]"),
-        widget.Memory(background=LIGHT_BG, foreground=PINK, format="[RAM: {MemUsed}M]"),
+        widget.Memory(background=LIGHT_BG, foreground=PINK, format="[ram: {MemUsed}M]"),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
-        widget.DF(background=RED, foreground=PINK, visible_on_warn=False, format="[HDD: {f}/{s}{m}]"),
+        widget.DF(
+            background=RED,
+            foreground=PINK,
+            visible_on_warn=False,
+            format="[hdd: {f}/{s}{m}]",
+        ),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
         widget.Wlan(
             background=LIGHT_BG,
             foreground=PINK,
             interface="wlp59s0",
             format="{percent:2.0%}",
-            fmt="[CON: {}]",
+            fmt="[con: {}]",
         ),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
         widget.Clock(background=RED, foreground=PINK, format="%H:%M", fmt="[{}]",),
@@ -162,10 +184,12 @@ def base_widgets():
 
 
 laptop_widgets = base_widgets()
-laptop_widgets.extend((
+laptop_widgets.extend(
+    (
         widget.Battery(background=LIGHT_BG, foreground=PINK),
         widget.Systray(background=RED),
-        ))
+    )
+)
 
 screens = [
     Screen(top=bar.Bar(laptop_widgets, 25, opacity=0.9, background=BEIGE)),
@@ -214,10 +238,11 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
+
 @hook.subscribe.startup_once
 def start_once():
-   home = os.path.expanduser('~')
-   subprocess.call([home + '/.config/qtile/autostart.sh'])
+    home = os.path.expanduser("~")
+    subprocess.call([home + "/.config/qtile/autostart.sh"])
 
 
 # @hook.subscribe.client_new

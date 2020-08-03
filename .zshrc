@@ -73,6 +73,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+export SSH_ASKPASS=/usr/bin/qt4-ssh-askpass
+#
 plugins=(git ssh-agent vi-mode fzf zsh-interactive-cd zsh-syntax-highlighting) #syntax must be last
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
@@ -82,7 +84,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
+path+=('/home/fu/.emacs.d/bin')
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -95,7 +97,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
+export FZF_DEFAULT_COMMAND=''
+#
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -110,7 +113,10 @@ alias mv="mv -i"
 alias gs="git status"
 alias mk='make CXXFLAGS="-std=c++17 -pedantic -Wall -Wextra"'
 alias mka='g++ *.cpp -pedantic -Wall -Wextra -std=c++17 -o exe && ./exe'
-bindkey '\es' fzf-cd-widget
+alias venv='source venv/bin/activate'
+alias emacs="emacs -nw"
+bindkey '^f' fzf-cd-widget
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
