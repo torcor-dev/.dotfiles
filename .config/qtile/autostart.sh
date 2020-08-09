@@ -1,4 +1,4 @@
 #!/bin/zsh
-picom --experimental-backends &
+picom &
 nitrogen --restore &
 blueman-tray &
