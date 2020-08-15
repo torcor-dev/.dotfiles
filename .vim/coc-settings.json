@@ -1,0 +1,5 @@
+{
+"python.formatting.provider": "black",
+"python.jediEnabled": false,
+"coc.preferences.formatOnSaveFiletypes": ["python"]
+}
