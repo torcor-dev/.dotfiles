@@ -73,9 +73,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-export SSH_ASKPASS=/usr/bin/qt4-ssh-askpass
+#export SSH_ASKPASS=/usr/bin/qt4-ssh-askpass
 #
-plugins=(git ssh-agent vi-mode fzf zsh-interactive-cd zsh-syntax-highlighting) #syntax must be last
+plugins=(git ssh-agent vi-mode fzf zsh-interactive-cd) #syntax must be last
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
@@ -115,6 +115,8 @@ alias mk='make CXXFLAGS="-std=c++17 -pedantic -Wall -Wextra"'
 alias mka='g++ *.cpp -pedantic -Wall -Wextra -std=c++17 -o exe && ./exe'
 alias venv='source venv/bin/activate'
 alias emacs="emacs -nw"
+alias grep="rg"
+
 bindkey '^f' fzf-cd-widget
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

@@ -26,7 +26,7 @@
 
 # SCREEN_SIZE=1920x1080 ./scripts/xephyr -c ~/.config/qtile/dev_config.py
 
-from libqtile.config import Key, Screen, Group, Drag, Click
+from libqtile.config import Key, Screen, Group, Drag, Click, EzKey
 from libqtile.lazy import lazy
 from libqtile import layout, bar, widget, hook
 
@@ -46,6 +46,21 @@ DARK_TEXT = "#000000"
 LIGHT_TEXT = "#ffffff"
 
 mod = "mod4"
+
+# why doesnt a variable work?
+class kbd:
+    layout = "us"
+k = kbd()
+
+@lazy.function
+def set_kbd_lo(qtile):
+    if k.layout == "us":
+        subprocess.run(["setxkbmap", "no"])
+        k.layout = "no"
+    else:
+        subprocess.run(["setxkbmap", "us"])
+        k.layout = "us"
+
 
 keys = [
     # Switch between windows in current stack pane
@@ -71,6 +86,7 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
     Key([mod], "p", lazy.spawn("rofi -show run")),
+    EzKey("M-S-l", set_kbd_lo),
 ]
 
 groups = [Group(i) for i in "1234567890"]
@@ -102,7 +118,7 @@ matrix_theme = {
     "border_normal": BEIGE,
 }
 
-groups[9].layouts = [layout.Matrix(columns=3, **matrix_theme)]
+groups[9].layouts = [layout.Matrix(columns=3, **matrix_theme), layout.Max(**matrix_theme)]
 groups[9].label = "serv"
 
 layouts = [
@@ -159,7 +175,7 @@ def base_widgets():
         ),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
         widget.CPU(background=RED, foreground=PINK, format="[cpu: {load_percent}% "),
-        widget.ThermalSensor(background=RED, foreground=PINK, fmt="{}]"),
+        widget.ThermalSensor(background=RED, foreground=PINK, tag_sensor="Package id 0", fmt="{}]"), #add tag_sensor="Package id 0"
         widget.Memory(background=LIGHT_BG, foreground=PINK, format="[ram: {MemUsed}M]"),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
         # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
@@ -173,7 +189,7 @@ def base_widgets():
         widget.Wlan(
             background=LIGHT_BG,
             foreground=PINK,
-            interface="wlp59s0",
+            interface="wlan0",
             format="{percent:2.0%}",
             fmt="[con: {}]",
         ),
@@ -243,6 +259,8 @@ focus_on_window_activation = "smart"
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
+
+
 
 
 # @hook.subscribe.client_new
