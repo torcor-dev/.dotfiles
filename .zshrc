@@ -5,6 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -85,6 +86,9 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 path+=('/home/fu/.emacs.d/bin')
+path+=('/usr/lib/jvm/java-11-openjdk')
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -114,11 +118,19 @@ alias gs="git status"
 alias mk='make CXXFLAGS="-std=c++17 -pedantic -Wall -Wextra"'
 alias mka='g++ *.cpp -pedantic -Wall -Wextra -std=c++17 -o exe && ./exe'
 alias venv='source venv/bin/activate'
-alias emacs="emacs -nw"
+alias emacs="emacsclient -c -a 'emacs' &|"
 alias grep="rg"
+alias brightness="cd /sys/class/backlight/intel_backlight"
+alias mute="amixer sset Master mute"
+alias unmute="amixer sset Master unmute"
+alias myip="curl http://ipecho.net/plain; echo"
+alias 'sudo pacman -Syu'='sudo pacman -Syu && pacdiff'
+alias 'yay -Syu'='yay && pacdiff'
 
 bindkey '^f' fzf-cd-widget
 
+alias ls="exa"
+alias lsn="exa -snew -la"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 

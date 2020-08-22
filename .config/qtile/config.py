@@ -26,7 +26,7 @@
 
 # SCREEN_SIZE=1920x1080 ./scripts/xephyr -c ~/.config/qtile/dev_config.py
 
-from libqtile.config import Key, Screen, Group, Drag, Click, EzKey
+from libqtile.config import Key, Screen, Group, Drag, Click, EzKey, Match
 from libqtile.lazy import lazy
 from libqtile import layout, bar, widget, hook
 
@@ -249,7 +249,9 @@ floating_layout = layout.Floating(
         {"wname": "branchdialog"},  # gitk
         {"wname": "pinentry"},  # GPG key password entry
         {"wmclass": "ssh-askpass"},  # ssh-askpass
-    ]
+        {"wname": "Input"},
+    ],
+    no_reposition_match=Match(title=["Input"])
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
