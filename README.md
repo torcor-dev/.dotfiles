@@ -1,8 +1,9 @@
 # .dotfiles
+```
 maintained with a bare repository
 https://www.atlassian.com/git/tutorials/dotfiles
 
-git clone --bare git@github.com:TFFU/.dotfiles.git $HOME/.cfg
+git clone --bare git@github.com:torcor-dev/.dotfiles.git $HOME/.cfg
 function config {
    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
 }
@@ -16,3 +17,4 @@ if [ $? = 0 ]; then
 fi;
 config checkout
 config config status.showUntrackedFiles no
+```
