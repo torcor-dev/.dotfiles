@@ -76,9 +76,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 #export SSH_ASKPASS=/usr/bin/qt4-ssh-askpass
 #
-plugins=(git ssh-agent vi-mode fzf zsh-interactive-cd) #syntax must be last
+plugins=(git vi-mode fzf zsh-interactive-cd) #syntax must be last
 
-zstyle :omz:plugins:ssh-agent agent-forwarding on
+#zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 source $ZSH/oh-my-zsh.sh
 
@@ -87,6 +87,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 path+=('/home/fu/.emacs.d/bin')
 path+=('/usr/lib/jvm/java-11-openjdk')
+path+=('/home/fu/bin')
 
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 # You may need to manually set your language environment
@@ -101,6 +102,7 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
 export FZF_DEFAULT_COMMAND=''
 #
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -124,8 +126,9 @@ alias brightness="cd /sys/class/backlight/intel_backlight"
 alias mute="amixer sset Master mute"
 alias unmute="amixer sset Master unmute"
 alias myip="curl http://ipecho.net/plain; echo"
-alias 'sudo pacman -Syu'='sudo pacman -Syu && pacdiff'
+alias 'sudo pacman -Syu'='sudo pacman -Syu && sudo pacdiff'
 alias 'yay -Syu'='yay && pacdiff'
+alias vim="nvim"
 
 bindkey '^f' fzf-cd-widget
 

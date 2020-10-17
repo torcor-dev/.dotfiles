@@ -2,15 +2,15 @@
 " vim: tw=80 et sw=2 ts=2
 
 " Colors {{{
-let s:dark_gray       = ['#870000', 017]
-let s:med_gray_hi     = ['#ff5e6c', 001]
-let s:med_gray_lo     = ['#ff5e6c', 017]
-let s:light_gray      = ['#ff5e6c', 249]
+let s:dark_gray       = ['#303030', 236]
+let s:med_gray_hi     = ['#444444', 238]
+let s:med_gray_lo     = ['#3a3a3a', 237]
+let s:light_gray      = ['#b2b2b2', 249]
 let s:pretty_pink     = ['#f29db4', 217]
 let s:banana_smoothie = ['#fce78d', 222]
 let s:faded_red       = ['#f97070', 203]
 let s:icy_sky         = ['#79e5e0', 116]
-let s:orangarine      = ['#e8a15a', 003]
+let s:orangarine      = ['#e8a15a', 179]
 "}}}
 
 " Init {{{

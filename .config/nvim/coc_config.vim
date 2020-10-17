@@ -1,118 +1,3 @@
-set nocompatible
-
-set clipboard=unnamedplus
-
-set nu " line numbers
-set relativenumber
-set tabstop=4
-set shiftwidth=4
-set expandtab " turn tabs into spaces
-set autoindent
-set smartindent
-set backspace=indent,eol,start "delete in insert
-set hlsearch
-set ignorecase
-set smartcase
-
-hi CursorColumn ctermfg=15 ctermbg=1 guibg=LightRed
-hi ColorColumn term=reverse ctermbg=3 guibg=LightRed
-hi DiffChange term=bold ctermbg=3 guibg=LightMagenta
-hi SpellBad term=reverse ctermbg=3 guibg=LightRed
-hi SpellRare term=reverse ctermbg=3 guibg=LightRed
-
-hi Pmenu ctermbg=0 ctermfg=15
-hi PmenuSbar ctermfg=2 ctermbg=2
-
-"cursor color on brackets matching:
-hi MatchParen cterm=none ctermbg=1 ctermfg=15
-"visual mode highlight color
-hi visual cterm=reverse ctermbg=15 ctermfg=1
-
-let mapleader = ' '
-
-"F2 and F3 to move to next/previous buffer
-map <F2> :bprev<CR>
-map <F3> :bnext<CR>
-
-nnoremap Y y$
-
-syntax enable
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('$HOME/.vim/plugged')
-Plug 'mattn/emmet-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'chrisbra/Colorizer'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'mhinz/vim-grepper'
-Plug 'tpope/vim-dadbod'
-Plug 'DougBeney/pickachu'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-"Plug 'davidhalter/jedi-vim'
-call plug#end()
-
-let g:airline#extensions#tabline#enabled = 1
-"let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-" powerline symbols
-"let g:airline_left_sep = ''
-"let g:airline_left_alt_sep = ''
-"let g:airline_right_sep = ''
-"let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = '☰ '
-let g:airline_symbols.maxlinenr = ' '
-let g:airline_symbols.dirty='⚡'
-
-let g:airline_theme='term'
-
-" FZF
-
-let $FZF_DEFAULT_OPTS .= ' --inline-info'
-
-" All files
-command! -nargs=? -complete=dir AF
-  \ call fzf#run(fzf#wrap(fzf#vim#with_preview({
-  \   'source': 'fd --type f --hidden --follow --exclude .git --no-ignore . '.expand(<q-args>)
-  \ })))
-
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'Conditional'],
-  \ 'bg+':     ['bg', 'Normal'],
-  \ 'hl+':     ['fg', 'Exception'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Terminal buffer options for fzf
-autocmd! FileType fzf
-autocmd  FileType fzf set noshowmode noruler nonu
-
-nnoremap <silent> <Leader><Leader> :Files<CR>
-nnoremap <silent> <Leader><Enter>  :Buffers<CR>
-nnoremap <silent> <Leader>L        :Lines<CR>
-nnoremap <silent> <Leader>C        :Colors<CR>
-
 "COC
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -133,14 +18,13 @@ set shortmess+=c
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-" if has("patch-8.1.1564")
+if has("patch-8.1.1564")
 "   " Recently vim can merge signcolumn and number column into one
-"   set signcolumn=number
-" else
-"   set signcolumn=yes
-" endif
-"
-set signcolumn = "yes"
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 highlight clear SignColumn
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -266,49 +150,3 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-"" DadBod
-"" operator mapping
-func! DBExe(...)
-
-		let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
-		return 'g@'
-	endif
-	let sel_save = &selection
-	let &selection = "inclusive"
-	let reg_save = @@
-
-	if a:1 == 'char'	" Invoked from Visual mode, use gv command.
-		silent exe 'normal! gvy'
-	elseif a:1 == 'line'
-		silent exe "normal! '[V']y"
-	else
-		silent exe 'normal! `[v`]y'
-	endif
-
-	execute "DB " . @@
-
-	let &selection = sel_save
-	let @@ = reg_save
-endfunc
-
-xnoremap <expr> <Plug>(DBExe)     DBExe()
-nnoremap <expr> <Plug>(DBExe)     DBExe()
-nnoremap <expr> <Plug>(DBExeLine) DBExe() . '_'
-
-xmap <leader>db  <Plug>(DBExe)
-nmap <leader>db  <Plug>(DBExe)
-omap <leader>db  <Plug>(DBExe)
-nmap <leader>dbb <Plug>(DBExeLine)
-
-source $HOME/.secrets/vimdb.vim
-command! DBSelect :call popup_menu(map(copy(g:dadbods), {k,v -> v.name}), {
-			\"callback": 'DBSelected'
-			\})
-
-func! DBSelected(id, result)
-	if a:result != -1
-		let b:db = g:dadbods[a:result-1].url
-		echomsg 'DB ' . g:dadbods[a:result-1].name . ' is selected.'
-	endif
-endfunc

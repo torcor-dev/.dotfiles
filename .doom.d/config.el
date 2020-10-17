@@ -29,7 +29,13 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/org/")
+(after! org
+  (setq org-directory "~/Documents/org/")
+  (setq org-agenda-files '("~/Documents/org/agenda.org"))
+  ;;(setq org-log-done 'time)
+  (setq org-log-done 'note)
+  (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "STUDY(s)" "WAIT(w)" "|" "DONE(d)" "CANCELLED(c)" )))
+)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -91,3 +97,4 @@
 ;; to enable the lenses
 (add-hook 'lsp-mode-hook #'lsp-lens-mode)
 (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+(setq dap-java-java-command "alacritty -e java")
