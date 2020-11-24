@@ -82,6 +82,10 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
     Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
+    Key([mod, "shift"], "u", lazy.layout.flip_down()),
+    Key([mod, "shift"], "i", lazy.layout.flip_up()),
+    Key([mod, "shift"], "y", lazy.layout.flip_left()),
+    Key([mod, "shift"], "o", lazy.layout.flip_right()),
     Key([mod, "control"], "j", lazy.layout.grow_down()),
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "h", lazy.layout.grow_left()),
@@ -94,12 +98,7 @@ keys = [
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "p", lazy.spawn("rofi -show run")),
-    Key(
-        [mod, "shift"],
-        "s",
-        lazy.spawn("maim -s -u | xclip -selection clipboard -t image/png -i"),
-    ),
-    EzKey("M-S-p", set_kbd_lo),
+    EzKey("M-S-l", set_kbd_lo),
 ]
 
 groups = [Group(i) for i in "1234567890"]
@@ -194,21 +193,13 @@ def base_widgets():
             urgent_text=LIGHT_ORANGE,
         ),
         widget.WindowName(foreground=LIGHT_PURPLE),
-        widget.Cmus(
-            background=MUTED_DARK_PURPLE,
-            play_color=LIGHT_PINK,
-            noplay_color=MUTED_LIGHT_PURPLE,
-            max_chars=50,
-            fmt="[{}]",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
         widget.Image(
             filename=f"{ICON_PATH}speedometer.png", margin=6, background=DARKER_PURPLE
         ),
         widget.CPU(
             background=DARKER_PURPLE,
             foreground=LIGHT_ORANGE,
-            format="{load_percent}% ",
+            format="{load_percent}%",
         ),
         widget.Image(
             filename=f"{ICON_PATH}thermometer.png", margin=6, background=DARKER_PURPLE
@@ -227,8 +218,6 @@ def base_widgets():
             foreground=LIGHT_ORANGE,
             format="{MemUsed}M",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
         widget.Image(
             filename=f"{ICON_PATH}database.png", margin=6, background=DARKEST_PURPLE
         ),
@@ -238,7 +227,6 @@ def base_widgets():
             visible_on_warn=False,
             format="{f}/{s}{m}",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
         widget.Image(
             filename=f"{ICON_PATH}wifi-line.png", margin=6, background=DARKEST_PURPLE
         ),
@@ -248,7 +236,6 @@ def base_widgets():
             interface="wlan0",
             format="{percent:2.0%}",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
         widget.Image(
             filename=f"{ICON_PATH}clock-line.png", margin=6, background=DARKEST_PURPLE
         ),
@@ -257,7 +244,6 @@ def base_widgets():
             foreground=LIGHT_ORANGE,
             format="%H:%M",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
     ]
 
 
@@ -317,7 +303,6 @@ floating_layout = layout.Floating(
         {"wname": "pinentry"},  # GPG key password entry
         {"wmclass": "ssh-askpass"},  # ssh-askpass
         {"wmclass": "ableton live 10 lite.exe"},  # ssh-askpass
-        {"wmclass": "pathofexile_x64.exe"},  # ssh-askpass
         {"wname": "Input"},
     ],
     no_reposition_match=Match(title=["Input"]),
@@ -330,16 +315,6 @@ focus_on_window_activation = "smart"
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
-
-
-@hook.subscribe.startup
-def start_always():
-    libqtile.qtile.cmd_restart()
-
-
-# @libqtile.hook.subscribe.screen_change
-# def restart_on_randr(ev):
-#    libqtile.qtile.cmd_restart()
 
 
 # @hook.subscribe.client_new

@@ -1,7 +1,7 @@
 "" DadBod
 "" operator mapping
 func! DBExe(...)
-
+    if !a:0
 		let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
 		return 'g@'
 	endif
@@ -32,7 +32,7 @@ nmap <leader>db  <Plug>(DBExe)
 omap <leader>db  <Plug>(DBExe)
 nmap <leader>dbb <Plug>(DBExeLine)
 
-source $HOME/.secrets/vimdb.vim
+source ~/.secrets/vimdb.vim
 command! DBSelect :call popup_menu(map(copy(g:dadbods), {k,v -> v.name}), {
 			\"callback": 'DBSelected'
 			\})

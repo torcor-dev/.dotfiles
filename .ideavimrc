@@ -1,0 +1,52 @@
+source ~/.vimrc
+
+set ideajoin
+set ideaput
+set ideamarks
+
+map <F2> :tabprev<CR>
+map <F3> :tabnext<CR>
+map <leader>cz :action ToggleZenMode<CR>
+map <leader><leader> :action SearchEverywhere<CR>
+map <leader>ca :action ShowIntentionActions<CR>
+map <leader>cb :action TypeAndGoInvoke<CR>
+map <leader>cd :action QuickImplementations<CR>
+map <leader>fu :action FindUsages<CR>
+map <leader>hw :action HideActiveWindow<CR>
+
+" Better mnemonics!
+map <leader>ne :action GotoNextError<CR>
+map <leader>pe :action GotoPreviousError<CR>
+
+" Refactoring
+
+map <leader>rt :action Refactorings.QuickListPopupAction<CR>
+map <leader>rr :action RenameElement<CR>
+map <leader>rs :action ChangeSignature<CR>
+map <leader>rm :action Move<CR>
+map <leader>ri :action Inline<CR>
+map <leader>rd :action SafeDelete<CR>
+
+map <leader>rec :action ExtractClass<CR>
+map <leader>ref :action ExtractFunction<CR>
+map <leader>rei :action ExtractInterface<CR>
+map <leader>rem :action ExtractMethod<CR>
+map <leader>res :action ExtractSuperclass<CR>
+
+map <leader>re1 :action ExtractModule<CR>
+map <leader>re2 :action ExtractJspTagAction<CR>
+map <leader>re3 :action ExtractInclude<CR>
+map <leader>re4 :action ExtractFunctionToScope<CR>
+
+map <leader>ric :action IntroduceConstant<Cr>
+map <leader>rif :action IntroduceField<Cr>
+map <leader>rip :action IntroduceParameter<Cr>
+map <leader>ria :action IntroduceProperty<Cr>
+map <leader>riv :action IntroduceVariable<Cr>
+
+map <leader>ri1 :action IntroduceActionsGroup<Cr>
+map <leader>ri2 :action IntroduceFunctionalParameter<Cr>
+map <leader>ri3 :action IntroduceFunctionalVariable<Cr>
+map <leader>ri4 :action IntroduceParameterObject<Cr>
+map <leader>ri5 :action IntroduceTypeAlias<Cr>
+map <leader>ri6 :action IntroduceTypeParameter<Cr>

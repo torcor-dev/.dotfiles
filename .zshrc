@@ -88,8 +88,10 @@ source $ZSH/oh-my-zsh.sh
 path+=('/home/fu/.emacs.d/bin')
 path+=('/usr/lib/jvm/java-11-openjdk')
 path+=('/home/fu/bin')
+path+=('/home/fu/.dotnet')
 
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+source /home/fu/.env_variables.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -102,8 +104,8 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
 export FZF_DEFAULT_COMMAND=''
+export FZF_DEFAULT_OPTS=''
 #
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -136,4 +138,3 @@ alias ls="exa"
 alias lsn="exa -snew -la"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-

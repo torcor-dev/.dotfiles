@@ -16,4 +16,4 @@ let g:airline_symbols.linenr = '☰ '
 let g:airline_symbols.maxlinenr = ' '
 let g:airline_symbols.dirty='⚡'
 
-let g:airline_theme='dracula'
+let g:airline_theme='purple_winter'

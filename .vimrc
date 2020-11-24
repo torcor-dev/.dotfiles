@@ -270,7 +270,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 "" DadBod
 "" operator mapping
 func! DBExe(...)
-
+    if !a:0
 		let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
 		return 'g@'
 	endif

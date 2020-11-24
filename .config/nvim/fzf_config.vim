@@ -25,6 +25,7 @@ let g:fzf_colors =
 autocmd! FileType fzf
 autocmd  FileType fzf set noshowmode noruler nonu
 
-nnoremap <silent> <Leader><Leader> :Files<CR>
+" nnoremap <silent> <Leader><Leader> :Files<CR>
 nnoremap <silent> <Leader><Enter>  :GFiles<CR>
 nnoremap <silent> <Leader>L        :Lines<CR>
+nnoremap <expr> <Leader><Leader> (len(system('git rev-parse')) ? ':Files' : ':GFiles --exclude-standard --others --cached')."\<cr>"

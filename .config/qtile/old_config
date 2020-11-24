@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# SCREEN_SIZE=1920x1080 ./scripts/xephyr -c ~/.config/qtile/dev_config.py
+# SCREEN_SIZE=3440x1440 ./scripts/xephyr -c ~/.config/qtile/dev_config.py
 
 from libqtile.config import Key, Screen, Group, Drag, Click, EzKey, Match
 from libqtile.lazy import lazy
@@ -36,22 +36,14 @@ import os
 import subprocess
 
 # COLORS
-DARKEST_PURPLE = "#11021A"
-DARKER_PURPLE = "#190526"
-DARK_PURPLE = "#220932"  # 201f23"#100c18"#fff5d8"
-LIGHT_PURPLE = "#5c4788"  # ff5e6c"
-MUTED_DARK_PURPLE = "#695988"
-MUTED_LIGHT_PURPLE = "#ad8fe5"
-LIGHT_PINK = "#efafce"  # ffaaab"
-ORANGE = "#9A5900"  # "#FF8E00"
-LIGHT_ORANGE = "#FFB800"
-PINK = "#FF06FB"
-LIGHT_BLUE = "#53A9CC"
-
+BEIGE = "#220932"  # 201f23"#100c18"#fff5d8"
+RED = "#5c4788"  # ff5e6c"
+YELLOW = "#efafce"  # d58a4d"#feb301"
+PINK = "#efafce"  # ffaaab"
+INACTIVE = "#ad8fe5"
+LIGHT_BG = "#695988"
 DARK_TEXT = "#000000"
 LIGHT_TEXT = "#ffffff"
-
-ICON_PATH = "~/.icons/"
 
 mod = "mod4"
 
@@ -82,6 +74,10 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
     Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
+    Key([mod, "shift"], "u", lazy.layout.flip_down()),
+    Key([mod, "shift"], "i", lazy.layout.flip_up()),
+    Key([mod, "shift"], "y", lazy.layout.flip_left()),
+    Key([mod, "shift"], "o", lazy.layout.flip_right()),
     Key([mod, "control"], "j", lazy.layout.grow_down()),
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "h", lazy.layout.grow_left()),
@@ -94,12 +90,7 @@ keys = [
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "p", lazy.spawn("rofi -show run")),
-    Key(
-        [mod, "shift"],
-        "s",
-        lazy.spawn("maim -s -u | xclip -selection clipboard -t image/png -i"),
-    ),
-    EzKey("M-S-p", set_kbd_lo),
+    EzKey("M-S-l", set_kbd_lo),
 ]
 
 groups = [Group(i) for i in "1234567890"]
@@ -118,17 +109,17 @@ for i in groups:
     )
 
 layout_theme = {
-    "border_width": 1,
-    "margin": 5,
-    "border_focus": ORANGE,
-    "border_normal": DARK_PURPLE,
+    "border_width": 2,
+    "margin": 10,
+    "border_focus": RED,
+    "border_normal": BEIGE,
 }
 
 matrix_theme = {
     "border_width": 1,
     "margin": 2,
-    "border_focus": ORANGE,
-    "border_normal": DARK_PURPLE,
+    "border_focus": RED,
+    "border_normal": BEIGE,
 }
 
 groups[9].layouts = [
@@ -138,20 +129,12 @@ groups[9].layouts = [
 groups[9].label = "serv"
 
 layouts = [
-    layout.Columns(
-        num_columns=3,
-        grow_amount=10,
-        insert_position=0,
-        split=True,
-        border_focus_stack=PINK,
-        border_normal_stack=LIGHT_BLUE,
-        **layout_theme,
-    ),
+    layout.Bsp(**layout_theme),
     # layout.MonadTall(**layout_theme),
     layout.Max(**layout_theme),
-    # layout.Bsp(**layout_theme),
     # layout.Stack(num_stacks=3),
     # Try more layouts by unleashing below layouts.
+    # layout.Columns(),
     # layout.Matrix(columns=3, **layout_theme),
     # layout.MonadWide(),
     # layout.RatioTile(),
@@ -162,11 +145,7 @@ layouts = [
 ]
 
 
-widget_defaults = dict(
-    font="Source Code Pro",
-    fontsize=14,
-    padding=2,
-)
+widget_defaults = dict(font="Source Code Pro", fontsize=14, padding=2,)
 extension_defaults = widget_defaults.copy()
 # cherry = "🌸"
 # white_flower = "💮"
@@ -177,106 +156,69 @@ separator_emoji = "💮"
 
 def base_widgets():
     return [
-        widget.CurrentLayoutIcon(foreground=LIGHT_ORANGE, background=DARKEST_PURPLE),
+        widget.CurrentLayoutIcon(background=LIGHT_BG),
         widget.GroupBox(
-            background=DARKER_PURPLE,
-            active=LIGHT_ORANGE,
-            inactive=MUTED_LIGHT_PURPLE,
-            block_highlight_text_color=LIGHT_ORANGE,
+            background=RED,
+            active=PINK,
+            inactive=INACTIVE,
+            block_highlight_text_color=PINK,
             disable_drag=True,
-            highlight_color=[ORANGE, LIGHT_ORANGE],
+            highlight_color=[RED, YELLOW],
             highlight_method="line",
-            other_current_screen_border=LIGHT_ORANGE,
-            other_screen_border=LIGHT_ORANGE,
-            this_current_screen_border=LIGHT_ORANGE,
-            this_screen_border=LIGHT_ORANGE,
+            other_current_screen_border=YELLOW,
+            other_screen_border=YELLOW,
+            this_current_screen_border=PINK,
+            this_screen_border=PINK,
             urgent_alert_method="text",
-            urgent_text=LIGHT_ORANGE,
+            urgent_text=YELLOW,
         ),
-        widget.WindowName(foreground=LIGHT_PURPLE),
+        widget.WindowName(foreground=RED),
         widget.Cmus(
-            background=MUTED_DARK_PURPLE,
-            play_color=LIGHT_PINK,
-            noplay_color=MUTED_LIGHT_PURPLE,
+            background=LIGHT_BG,
+            play_color=PINK,
+            noplay_color=INACTIVE,
             max_chars=50,
             fmt="[{}]",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
-        widget.Image(
-            filename=f"{ICON_PATH}speedometer.png", margin=6, background=DARKER_PURPLE
-        ),
-        widget.CPU(
-            background=DARKER_PURPLE,
-            foreground=LIGHT_ORANGE,
-            format="{load_percent}% ",
-        ),
-        widget.Image(
-            filename=f"{ICON_PATH}thermometer.png", margin=6, background=DARKER_PURPLE
-        ),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+        widget.CPU(background=RED, foreground=PINK, format="[cpu: {load_percent}% "),
         widget.ThermalSensor(
-            background=DARKER_PURPLE,
-            foreground=LIGHT_ORANGE,
-            tag_sensor="Package id 0",
-            fmt="{}",
+            background=RED, foreground=PINK, tag_sensor="Package id 0", fmt="{}]"
         ),  # add tag_sensor="Package id 0"
-        widget.Image(
-            filename=f"{ICON_PATH}encryption.png", margin=6, background=DARKER_PURPLE
-        ),
-        widget.Memory(
-            background=DARKER_PURPLE,
-            foreground=LIGHT_ORANGE,
-            format="{MemUsed}M",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
-        widget.Image(
-            filename=f"{ICON_PATH}database.png", margin=6, background=DARKEST_PURPLE
-        ),
+        widget.Memory(background=LIGHT_BG, foreground=PINK, format="[ram: {MemUsed}M]"),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
         widget.DF(
-            background=DARKEST_PURPLE,
-            foreground=LIGHT_ORANGE,
+            background=RED,
+            foreground=PINK,
             visible_on_warn=False,
-            format="{f}/{s}{m}",
+            format="[hdd: {f}/{s}{m}]",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
-        widget.Image(
-            filename=f"{ICON_PATH}wifi-line.png", margin=6, background=DARKEST_PURPLE
-        ),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
         widget.Wlan(
-            background=DARKEST_PURPLE,
-            foreground=LIGHT_ORANGE,
+            background=LIGHT_BG,
+            foreground=PINK,
             interface="wlan0",
             format="{percent:2.0%}",
+            fmt="[con: {}]",
         ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
-        widget.Image(
-            filename=f"{ICON_PATH}clock-line.png", margin=6, background=DARKEST_PURPLE
-        ),
-        widget.Clock(
-            background=DARKEST_PURPLE,
-            foreground=LIGHT_ORANGE,
-            format="%H:%M",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=RED),
+        widget.Clock(background=RED, foreground=PINK, format="%H:%M", fmt="[{}]",),
+        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_BG),
     ]
 
 
 laptop_widgets = base_widgets()
 laptop_widgets.extend(
     (
-        widget.Image(
-            filename=f"{ICON_PATH}battery-charging.png",
-            margin=6,
-            background=DARKEST_PURPLE,
-        ),
-        widget.Battery(background=DARKEST_PURPLE, foreground=LIGHT_ORANGE),
-        widget.Systray(background=DARKEST_PURPLE),
+        widget.Battery(background=LIGHT_BG, foreground=PINK),
+        widget.Systray(background=RED),
     )
 )
 
 screens = [
-    Screen(top=bar.Bar(laptop_widgets, 25, opacity=0.9, background=DARK_PURPLE)),
-    Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=DARK_PURPLE)),
+    Screen(top=bar.Bar(laptop_widgets, 25, opacity=0.9, background=BEIGE)),
+    Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=BEIGE)),
 ]
 
 # Drag floating layouts.
@@ -317,7 +259,6 @@ floating_layout = layout.Floating(
         {"wname": "pinentry"},  # GPG key password entry
         {"wmclass": "ssh-askpass"},  # ssh-askpass
         {"wmclass": "ableton live 10 lite.exe"},  # ssh-askpass
-        {"wmclass": "pathofexile_x64.exe"},  # ssh-askpass
         {"wname": "Input"},
     ],
     no_reposition_match=Match(title=["Input"]),
@@ -330,16 +271,6 @@ focus_on_window_activation = "smart"
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
-
-
-@hook.subscribe.startup
-def start_always():
-    libqtile.qtile.cmd_restart()
-
-
-# @libqtile.hook.subscribe.screen_change
-# def restart_on_randr(ev):
-#    libqtile.qtile.cmd_restart()
 
 
 # @hook.subscribe.client_new
