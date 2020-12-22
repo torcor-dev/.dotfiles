@@ -116,8 +116,8 @@ export FZF_DEFAULT_OPTS=''
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias config='/usr/bin/git --git-dir=/home/fu/.dotfiles/ --work-tree=/home/fu'
-alias rm="rm -i"
-alias mv="mv -i"
+alias rm="rm -I"
+alias mv="mv -I"
 alias gs="git status"
 alias mk='make CXXFLAGS="-std=c++17 -pedantic -Wall -Wextra"'
 alias mka='g++ *.cpp -pedantic -Wall -Wextra -std=c++17 -o exe && ./exe'
@@ -131,6 +131,7 @@ alias myip="curl http://ipecho.net/plain; echo"
 alias 'sudo pacman -Syu'='sudo pacman -Syu && sudo pacdiff'
 alias 'yay -Syu'='yay && pacdiff'
 alias vim="nvim"
+alias screenshot="maim -s -u | xclip -selection clipboard -t image/png -i"
 
 bindkey '^f' fzf-cd-widget
 
