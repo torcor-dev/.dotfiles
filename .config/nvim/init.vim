@@ -38,6 +38,7 @@ Plug 'DougBeney/pickachu'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 " Plug 'neovim/nvim-lspconfig'
 " Plug 'nvim-lua/completion-nvim'
 " Plug 'RishabhRD/popfix'
@@ -50,6 +51,7 @@ source ~/.config/nvim/dadbod_config.vim
 source ~/.config/nvim/airline_config.vim
 " source ~/.config/nvim/diagnostic_conf.vim
 " lua require("lsp_config")
+lua require("treesitter_config")
 
 colorscheme purple_winter
 

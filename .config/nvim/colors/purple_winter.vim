@@ -101,7 +101,7 @@ hi link Typedef Type
 hi Special guifg=#ffdc41 ctermfg=221 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 hi link SpecialChar Special
 hi link Tag Special
-hi link Delimiter Special
+hi link Delimiter Normal
 hi link SpecialComment Special
 hi link Debug Special
 hi Underlined gui=underline cterm=underline
@@ -112,6 +112,11 @@ hi CocErrorSign guifg=#a0406f ctermfg=131 guibg=NONE ctermbg=NONE gui=NONE cterm
 hi CocWarningSign guifg=#ffdc41 ctermfg=221 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 hi CocHintSign guifg=#63c2a1 ctermfg=73 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 hi CocInfoSign guifg=#44c8e7 ctermfg=80 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+
+hi link TSConstructor Type
+hi link TSFuncBuiltin Special
+hi link TSVariableBuiltin SpellBad 
+hi link TSParameter Normal
 
 if exists('*term_setansicolors')
   let g:terminal_ansi_colors = repeat([0], 16)
