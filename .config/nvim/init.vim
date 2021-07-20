@@ -34,11 +34,17 @@ Plug 'mattn/emmet-vim'
 Plug 'mhinz/vim-grepper'
 Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
 Plug 'DougBeney/pickachu'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
+Plug 'LunarWatcher/auto-pairs', { 'tag': '*' }
+"Plug 'chemzqm/vim-jsx-improve'
+"Plug 'marko-cerovac/material.nvim'
+" Plug 'yonlu/omni.vim'
 " Plug 'neovim/nvim-lspconfig'
 " Plug 'nvim-lua/completion-nvim'
 " Plug 'RishabhRD/popfix'
@@ -54,6 +60,11 @@ source ~/.config/nvim/airline_config.vim
 lua require("treesitter_config")
 
 colorscheme purple_winter
+
+autocmd FileType javascriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType css setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " " Completion
 " " Use <Tab> and <S-Tab> to navigate through popup menu

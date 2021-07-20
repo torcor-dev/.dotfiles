@@ -97,7 +97,12 @@ keys = [
     Key(
         [mod, "shift"],
         "s",
-        lazy.spawn("maim -s -u | xclip -selection clipboard -t image/png -i"),
+        lazy.spawn("bash -c 'maim -s -u | xclip -selection clipboard -t image/png -i'"),
+    ),
+    Key(
+        [mod, "shift"],
+        "w",
+        lazy.spawn("bash -c 'xkill'"),
     ),
     EzKey("M-S-p", set_kbd_lo),
 ]
@@ -110,10 +115,10 @@ for i in groups:
             # mod1 + letter of group = switch to group
             Key([mod], i.name, lazy.group[i.name].toscreen()),
             # mod1 + shift + letter of group = switch to & move focused window to group
-            Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True)),
+            #Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True)),
             # Or, use below if you prefer not to switch to that group.
             # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
+            Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
         ]
     )
 
@@ -130,6 +135,12 @@ matrix_theme = {
     "border_focus": ORANGE,
     "border_normal": DARK_PURPLE,
 }
+
+groups[0].layouts = [
+    layout.VerticalTile(columns=3, **matrix_theme),
+    layout.Max(**matrix_theme),
+]
+groups[9].label = "serv"
 
 groups[9].layouts = [
     layout.Matrix(columns=3, **matrix_theme),
@@ -175,8 +186,18 @@ extension_defaults = widget_defaults.copy()
 separator_emoji = "💮"
 
 
-def base_widgets():
-    return [
+def base_widgets(
+        group=True,
+        wname=True,
+        cpu=True,
+        therm=True,
+        mem=True,
+        dspace=True,
+        sys=True,
+        clk=True,
+        ):
+
+    group_layout = [
         widget.CurrentLayoutIcon(foreground=LIGHT_ORANGE, background=DARKEST_PURPLE),
         widget.GroupBox(
             background=DARKER_PURPLE,
@@ -192,16 +213,12 @@ def base_widgets():
             this_screen_border=LIGHT_ORANGE,
             urgent_alert_method="text",
             urgent_text=LIGHT_ORANGE,
-        ),
+        )]
+
+    window_name = [
         widget.WindowName(foreground=LIGHT_PURPLE),
-        widget.Cmus(
-            background=MUTED_DARK_PURPLE,
-            play_color=LIGHT_PINK,
-            noplay_color=MUTED_LIGHT_PURPLE,
-            max_chars=50,
-            fmt="[{}]",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
+            ]
+    cpu = [
         widget.Image(
             filename=f"{ICON_PATH}speedometer.png", margin=6, background=DARKER_PURPLE
         ),
@@ -209,26 +226,31 @@ def base_widgets():
             background=DARKER_PURPLE,
             foreground=LIGHT_ORANGE,
             format="{load_percent}% ",
-        ),
+        )]
+
+    thermo = [
         widget.Image(
             filename=f"{ICON_PATH}thermometer.png", margin=6, background=DARKER_PURPLE
         ),
         widget.ThermalSensor(
             background=DARKER_PURPLE,
             foreground=LIGHT_ORANGE,
-            tag_sensor="Package id 0",
+            tag_sensor="Tctl",
             fmt="{}",
-        ),  # add tag_sensor="Package id 0"
+        )]
+
+    memory = [
         widget.Image(
             filename=f"{ICON_PATH}encryption.png", margin=6, background=DARKER_PURPLE
         ),
         widget.Memory(
             background=DARKER_PURPLE,
             foreground=LIGHT_ORANGE,
-            format="{MemUsed}M",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
+            format="{MemUsed: .2f}{mm}",
+            measure_mem="G"
+        )]
+
+    disk_space = [
         widget.Image(
             filename=f"{ICON_PATH}database.png", margin=6, background=DARKEST_PURPLE
         ),
@@ -237,18 +259,13 @@ def base_widgets():
             foreground=LIGHT_ORANGE,
             visible_on_warn=False,
             format="{f}/{s}{m}",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
-        widget.Image(
-            filename=f"{ICON_PATH}wifi-line.png", margin=6, background=DARKEST_PURPLE
-        ),
-        widget.Wlan(
-            background=DARKEST_PURPLE,
-            foreground=LIGHT_ORANGE,
-            interface="wlan0",
-            format="{percent:2.0%}",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=LIGHT_PURPLE),
+        ),]
+    
+    sys_tray = [
+        widget.Systray(background=DARKEST_PURPLE),
+    ]
+    
+    clock = [
         widget.Image(
             filename=f"{ICON_PATH}clock-line.png", margin=6, background=DARKEST_PURPLE
         ),
@@ -256,9 +273,26 @@ def base_widgets():
             background=DARKEST_PURPLE,
             foreground=LIGHT_ORANGE,
             format="%H:%M",
-        ),
-        # widget.TextBox(text=separator_emoji, font="Noto Color Emoji", background=MUTED_DARK_PURPLE),
-    ]
+        )]
+    widgets = []
+    if group:
+        widgets.extend(group_layout)
+    if wname:
+        widgets.extend(window_name)
+    if cpu:
+        widgets.extend(cpu)
+    if therm:
+        widgets.extend(thermo)
+    if mem:
+        widgets.extend(memory)
+    if dspace:
+        widgets.extend(disk_space)
+    if sys:
+        widgets.extend(sys_tray)
+    if clk:
+        widgets.extend(clock)
+
+    return widgets
 
 
 laptop_widgets = base_widgets()
@@ -275,8 +309,8 @@ laptop_widgets.extend(
 )
 
 screens = [
-    Screen(top=bar.Bar(laptop_widgets, 25, opacity=0.9, background=DARK_PURPLE)),
     Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=DARK_PURPLE)),
+    Screen(top=bar.Bar(base_widgets(sys=False), 25, opacity=0.9, background=DARK_PURPLE)),
 ]
 
 # Drag floating layouts.

@@ -13,6 +13,10 @@ map <leader>cb :action TypeAndGoInvoke<CR>
 map <leader>cd :action QuickImplementations<CR>
 map <leader>fu :action FindUsages<CR>
 map <leader>hw :action HideActiveWindow<CR>
+map <leader>jd :action QuickJavaDoc<CR>
+
+map gd :action GotoDeclaration<CR>
+
 
 " Better mnemonics!
 map <leader>ne :action GotoNextError<CR>

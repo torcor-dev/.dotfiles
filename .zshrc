@@ -16,7 +16,8 @@ export ZSH="/home/fu/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+source "/usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
@@ -86,11 +87,11 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 path+=('/home/fu/.emacs.d/bin')
-path+=('/usr/lib/jvm/java-11-openjdk')
+#path+=('/usr/lib/jvm/java-11-openjdk')
 path+=('/home/fu/bin')
 path+=('/home/fu/.dotnet')
-
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+path+=('/home/fu/.local/bin')
+#export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 source /home/fu/.env_variables.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -106,6 +107,9 @@ source /home/fu/.env_variables.sh
 # export ARCHFLAGS="-arch x86_64"
 export FZF_DEFAULT_COMMAND=''
 export FZF_DEFAULT_OPTS=''
+export QT_QPA_PLATFORMTHEME=qt5ct
+export MANPAGER="nvim -c 'set ft=man' -"
+export EDITOR="nvim"
 #
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -117,7 +121,7 @@ export FZF_DEFAULT_OPTS=''
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias config='/usr/bin/git --git-dir=/home/fu/.dotfiles/ --work-tree=/home/fu'
 alias rm="rm -I"
-alias mv="mv -I"
+alias mv="mv -i"
 alias gs="git status"
 alias mk='make CXXFLAGS="-std=c++17 -pedantic -Wall -Wextra"'
 alias mka='g++ *.cpp -pedantic -Wall -Wextra -std=c++17 -o exe && ./exe'
@@ -131,7 +135,10 @@ alias myip="curl http://ipecho.net/plain; echo"
 alias 'sudo pacman -Syu'='sudo pacman -Syu && sudo pacdiff'
 alias 'yay -Syu'='yay && pacdiff'
 alias vim="nvim"
+alias bim="nvim"
+alias cim="nvim"
 alias screenshot="maim -s -u | xclip -selection clipboard -t image/png -i"
+alias savess='xclip -selection clipboard -t image/jpeg -o > "`date +%Y-%m-%d_%H-%M-%S`.png"'
 
 bindkey '^f' fzf-cd-widget
 
@@ -139,3 +146,13 @@ alias ls="exa"
 alias lsn="exa -snew -la"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export PATH="$HOME/.poetry/bin:$PATH"
+export POE_LOOTFILTERS="/home/fu/.local/share/Steam/steamapps/compatdata/238960/pfx/drive_c/users/steamuser/My Documents/My Games/Path of Exile"
+source /usr/share/nvm/init-nvm.sh
+
+PATH="/home/fu/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/fu/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/fu/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/fu/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/fu/perl5"; export PERL_MM_OPT;
