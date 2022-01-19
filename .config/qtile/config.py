@@ -113,7 +113,7 @@ for i in groups:
     keys.extend(
         [
             # mod1 + letter of group = switch to group
-            Key([mod], i.name, lazy.group[i.name].toscreen()),
+            Key([mod], i.name, lazy.group[i.name].toscreen(toggle=True)),
             # mod1 + shift + letter of group = switch to & move focused window to group
             #Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True)),
             # Or, use below if you prefer not to switch to that group.
@@ -179,11 +179,6 @@ widget_defaults = dict(
     padding=2,
 )
 extension_defaults = widget_defaults.copy()
-# cherry = "🌸"
-# white_flower = "💮"
-# onigiri = "🍙"
-# Cooked rice: 🍚
-separator_emoji = "💮"
 
 
 def base_widgets(
@@ -309,55 +304,47 @@ laptop_widgets.extend(
 )
 
 screens = [
-    Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=DARK_PURPLE)),
+    Screen(top=bar.Bar(base_widgets(), 25, opacity=1, background=DARK_PURPLE)),
     Screen(top=bar.Bar(base_widgets(sys=False), 25, opacity=0.9, background=DARK_PURPLE)),
 ]
 
 # Drag floating layouts.
 mouse = [
     Drag(
-        [mod],
+        [mod, "shift"],
         "Button1",
         lazy.window.set_position_floating(),
         start=lazy.window.get_position(),
     ),
     Drag(
-        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+        [mod, "shift"], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
     ),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
+    Click([mod, "shift"], "Button2", lazy.window.toggle_floating()),
+    Click([mod], "Button1", lazy.spawn("bash -c '/home/fu/.local/bin/logout_macro'")),
 ]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
-main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        {"wmclass": "confirm"},
-        {"wmclass": "dialog"},
-        {"wmclass": "download"},
-        {"wmclass": "error"},
-        {"wmclass": "file_progress"},
-        {"wmclass": "notification"},
-        {"wmclass": "splash"},
-        {"wmclass": "toolbar"},
-        {"wmclass": "confirmreset"},  # gitk
-        {"wmclass": "makebranch"},  # gitk
-        {"wmclass": "maketag"},  # gitk
-        {"wname": "branchdialog"},  # gitk
-        {"wname": "pinentry"},  # GPG key password entry
-        {"wmclass": "ssh-askpass"},  # ssh-askpass
-        {"wmclass": "ableton live 10 lite.exe"},  # ssh-askpass
-        {"wmclass": "pathofexile_x64.exe"},  # ssh-askpass
-        {"wname": "Input"},
-    ],
-    no_reposition_match=Match(title=["Input"]),
-)
+floating_layout = layout.Floating(float_rules=[
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules,
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
 
 
 @hook.subscribe.startup_once
@@ -366,9 +353,9 @@ def start_once():
     subprocess.call([home + "/.config/qtile/autostart.sh"])
 
 
-@hook.subscribe.startup
-def start_always():
-    libqtile.qtile.cmd_restart()
+#@hook.subscribe.startup
+#def start_always():
+#    libqtile.qtile.cmd_restart()
 
 
 # @libqtile.hook.subscribe.screen_change
