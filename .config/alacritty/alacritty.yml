@@ -160,7 +160,7 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (Tomorrow Night)
+# nnnnhnColors (Tomorrow Night)
 #colors:
   # Default colors
   #primary:
@@ -202,68 +202,57 @@ font:
 colors:
   # Default colors
   #
-    primary:
-      background: '0x111014'
-      foreground: '0xd9d5e3'
-
-    # Normal colors
-    normal:
-      black:   '0x100c18'
-      red:     '0x712c94'
-      green:   '0x6040a1'
-      yellow:  '0x5c4788'
-      blue:    '0x695988'
-      magenta: '0x8d80a9'
-      cyan:    '0xb5adc8'
-      white:   '0xe4e1eb'
-
-    # Bright colors
-    bright:
-      black:   '0xad8fe5'
-      red:     '0x4e9bb0'
-      green:   '0x8c9e48'
-      yellow:  '0x879840'
-      blue:    '0x44c8e7'
-      magenta: '0x63c2a1'
-      cyan:    '0xefafce'
-      white:   '0xd58a4d'
-  
-  
-        # Normal colors
-        #  normal:
-        #    black:   '#1d1f21'
-        #    red:     '#cc6666'
-        #    green:   '#b5bd68'
-        #    yellow:  '#f0c674'
-        #    blue:    '#81a2be'
-        #    magenta: '#b294bb'
-        #    cyan:    '#8abeb7'
-        #    white:   '#c5c8c6'
+  #    primary:
+  #      background: '0x111014'
+  #      foreground: '0xd9d5e3'
   #
-  #  # Bright colors
-  #  bright:
-  #    black:   '#666666'
-  #    red:     '#d54e53'
-  #    green:   '#b9ca4a'
-  #    yellow:  '#e7c547'
-  #    blue:    '#7aa6da'
-  #    magenta: '#c397d8'
-  #    cyan:    '#70c0b1'
-  #    white:   '#eaeaea'
+  #    # Normal colors
+  #    normal:
+  #      black:   '0x100c18'
+  #      red:     '0x712c94'
+  #      green:   '0x6040a1'
+  #      yellow:  '0x5c4788'
+  #      blue:    '0x695988'
+  #      magenta: '0x8d80a9'
+  #      cyan:    '0xb5adc8'
+  #      white:   '0xe4e1eb'
   #
-  #  # Dim colors
-  #  #
-  #  # If the dim colors are not set, they will be calculated automatically based
-  #  # on the `normal` colors.
-  #  dim:
-  #    black:   '#131415'
-  #    red:     '#864343'
-  #    green:   '#777c44'
-  #    yellow:  '#9e824c'
-  #    blue:    '#556a7d'
-  #    magenta: '#75617b'
-  #    cyan:    '#5b7d78'
-  #    white:   '#828482'
+  #    # Bright colors
+  #    bright:
+  #      black:   '0xad8fe5'
+  #      red:     '0x4e9bb0'
+  #      green:   '0x8c9e48'
+  #      yellow:  '0x879840'
+  #      blue:    '0x44c8e7'
+  #      magenta: '0x63c2a1'
+  #      cyan:    '0xefafce'
+  #      white:   '0xd58a4d'
+  
+  primary:
+    foreground: '#E991CF'
+    background: '#250014'
+  cursor:
+    cursor: '#5f003b'
+    text: '#250014'
+  normal:
+    black:   '#250014'
+    red:     '#C35E9D'
+    green:   '#FF88B3'
+    yellow:  '#D17FC8'
+    blue:    '#FF62A8'
+    magenta: '#E792D0'
+    cyan:    '#FF73FE'
+    white:   '#E991CF'
+  bright:
+    black:   '#5F003B'
+    red:     '#DC6DB2'
+    green:   '#FF9FBF'
+    yellow:  '#E090D7'
+    blue:    '#FF83B5'
+    magenta: '#F0A3DA'
+    cyan:    '#FF90FE'
+    white:   '#D54FB3'
+  
   #
   # Indexed Colors
   #
@@ -305,7 +294,7 @@ colors:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.92
+background_opacity: 0.98
 
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

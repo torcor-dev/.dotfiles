@@ -108,7 +108,7 @@ source /home/fu/.env_variables.sh
 export FZF_DEFAULT_COMMAND=''
 export FZF_DEFAULT_OPTS=''
 export QT_QPA_PLATFORMTHEME=qt5ct
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim +Man!"
 export EDITOR="nvim"
 #
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -156,3 +156,5 @@ PERL5LIB="/home/fu/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/fu/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/fu/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/fu/perl5"; export PERL_MM_OPT;
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

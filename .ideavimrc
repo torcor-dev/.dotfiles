@@ -3,6 +3,15 @@ source ~/.vimrc
 set ideajoin
 set ideaput
 set ideamarks
+set idearefactormode=keep
+
+set showmode
+set scrolloff=15
+set nu
+set rnu
+
+let mapleader = " "
+nmap <space> <Leader>
 
 map <F2> :tabprev<CR>
 map <F3> :tabnext<CR>
@@ -17,6 +26,7 @@ map <leader>jd :action QuickJavaDoc<CR>
 
 map gd :action GotoDeclaration<CR>
 
+map <leader>cr :action Run<CR>
 
 " Better mnemonics!
 map <leader>ne :action GotoNextError<CR>
@@ -54,3 +64,5 @@ map <leader>ri3 :action IntroduceFunctionalVariable<Cr>
 map <leader>ri4 :action IntroduceParameterObject<Cr>
 map <leader>ri5 :action IntroduceTypeAlias<Cr>
 map <leader>ri6 :action IntroduceTypeParameter<Cr>
+
+set clipboard+=ideaput
