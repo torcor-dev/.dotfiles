@@ -26,338 +26,98 @@
 
 # SCREEN_SIZE=1920x1080 ./scripts/xephyr -c ~/.config/qtile/dev_config.py
 
-from libqtile.config import Key, Screen, Group, Drag, Click, EzKey, Match
-from libqtile.lazy import lazy
-from libqtile import layout, bar, widget, hook
+from libqtile.config import Screen, Group
+from libqtile import bar, hook
 
-from typing import List  # noqa: F401
+from assets import ColorManager
+from keymaps import Keymaps
+from layouts import LayoutManager
+from widgets import WidgetManager
+
+from typing import List
 
 import os
 import subprocess
 
-# COLORS
-DARKEST_PURPLE = "#11021A"
-DARKER_PURPLE = "#190526"
-DARK_PURPLE = "#220932"  # 201f23"#100c18"#fff5d8"
-LIGHT_PURPLE = "#5c4788"  # ff5e6c"
-MUTED_DARK_PURPLE = "#695988"
-MUTED_LIGHT_PURPLE = "#ad8fe5"
-LIGHT_PINK = "#efafce"  # ffaaab"
-ORANGE = "#9A5900"  # "#FF8E00"
-LIGHT_ORANGE = "#FFB800"
-PINK = "#FF06FB"
-LIGHT_BLUE = "#53A9CC"
-
-DARK_TEXT = "#000000"
-LIGHT_TEXT = "#ffffff"
-
-ICON_PATH = "~/.icons/"
+LAPTOP_MODE = False
 
 mod = "mod4"
-
-# why doesnt a variable work?
-class kbd:
-    layout = "us"
-
-
-k = kbd()
-
-
-@lazy.function
-def set_kbd_lo(qtile):
-    if k.layout == "us":
-        subprocess.run(["setxkbmap", "no"])
-        k.layout = "no"
-    else:
-        subprocess.run(["setxkbmap", "us"])
-        k.layout = "us"
-
-
-keys = [
-    Key([mod], "j", lazy.layout.down()),
-    Key([mod], "k", lazy.layout.up()),
-    Key([mod], "h", lazy.layout.left()),
-    Key([mod], "l", lazy.layout.right()),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
-    Key([mod, "control"], "j", lazy.layout.grow_down()),
-    Key([mod, "control"], "k", lazy.layout.grow_up()),
-    Key([mod, "control"], "h", lazy.layout.grow_left()),
-    Key([mod, "control"], "l", lazy.layout.grow_right()),
-    Key([mod, "shift"], "n", lazy.layout.normalize()),
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn("alacritty")),
-    Key([mod], "Tab", lazy.next_layout()),
-    Key([mod], "w", lazy.window.kill()),
-    Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.shutdown()),
-    Key([mod], "p", lazy.spawn("rofi -show run")),
-    Key(
-        [mod, "shift"],
-        "s",
-        lazy.spawn("bash -c 'maim -s -u | xclip -selection clipboard -t image/png -i'"),
-    ),
-    Key(
-        [mod, "shift"],
-        "w",
-        lazy.spawn("bash -c 'xkill'"),
-    ),
-    EzKey("M-S-p", set_kbd_lo),
-]
-
 groups = [Group(i) for i in "1234567890"]
 
-for i in groups:
-    keys.extend(
-        [
-            # mod1 + letter of group = switch to group
-            Key([mod], i.name, lazy.group[i.name].toscreen()),
-            # mod1 + shift + letter of group = switch to & move focused window to group
-            #Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True)),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
-        ]
-    )
-
-layout_theme = {
-    "border_width": 1,
-    "margin": 5,
-    "border_focus": ORANGE,
-    "border_normal": DARK_PURPLE,
+color_schemes = {
+    "purp_x_red": {
+        "fg": "#ffffff",
+        "fg_alt": "#ffffff",
+        "bg_left": "#6502f9",
+        "bg_center": "#f90248",
+        "highlight": "#Ff8027",
+    },
+    "purplebones": {
+        "fg": "#ffffff",
+        "fg_alt": "#ffffff",
+        "bg_left": "#1B0014",
+        "bg_center": "#7f1f61",
+        "highlight": "#f90764",
+    },
+    "candy_pink": {
+        "fg": "#ffffff",
+        "fg_alt": "#ffffff",
+        "bg_left": "#f90764",
+        "bg_center": "#F24389",
+        "bg_right": "#FF65FA",
+        "highlight": "#f352ff",
+    },
 }
 
-matrix_theme = {
-    "border_width": 1,
-    "margin": 2,
-    "border_focus": ORANGE,
-    "border_normal": DARK_PURPLE,
-}
+# colormanager = ColorManager(**color_schemes["purp_x_red"])
+# colormanager = ColorManager(**color_schemes["purplebones"])
+colormanager = ColorManager(**color_schemes["candy_pink"])
 
-groups[0].layouts = [
-    layout.VerticalTile(columns=3, **matrix_theme),
-    layout.Max(**matrix_theme),
-]
-groups[9].label = "serv"
+keymaps = Keymaps(mod)
+keymaps.map_groups(groups)
 
-groups[9].layouts = [
-    layout.Matrix(columns=3, **matrix_theme),
-    layout.Max(**matrix_theme),
-]
-groups[9].label = "serv"
+keys = keymaps.keys
 
-layouts = [
-    layout.Columns(
-        num_columns=3,
-        grow_amount=10,
-        insert_position=0,
-        split=True,
-        border_focus_stack=PINK,
-        border_normal_stack=LIGHT_BLUE,
-        **layout_theme,
-    ),
-    # layout.MonadTall(**layout_theme),
-    layout.Max(**layout_theme),
-    # layout.Bsp(**layout_theme),
-    # layout.Stack(num_stacks=3),
-    # Try more layouts by unleashing below layouts.
-    # layout.Matrix(columns=3, **layout_theme),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(shift_window=True, **layout_theme),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
-]
+layoutmanager = LayoutManager(groups)
+layouts = layoutmanager.default_layouts
 
+widgetmanager = WidgetManager(colormanager, 10)
+widget_defaults = widgetmanager.widget_defaults()
 
-widget_defaults = dict(
-    font="Source Code Pro",
-    fontsize=14,
-    padding=2,
-)
-extension_defaults = widget_defaults.copy()
-# cherry = "🌸"
-# white_flower = "💮"
-# onigiri = "🍙"
-# Cooked rice: 🍚
-separator_emoji = "💮"
-
-
-def base_widgets(
-        group=True,
-        wname=True,
-        cpu=True,
-        therm=True,
-        mem=True,
-        dspace=True,
-        sys=True,
-        clk=True,
-        ):
-
-    group_layout = [
-        widget.CurrentLayoutIcon(foreground=LIGHT_ORANGE, background=DARKEST_PURPLE),
-        widget.GroupBox(
-            background=DARKER_PURPLE,
-            active=LIGHT_ORANGE,
-            inactive=MUTED_LIGHT_PURPLE,
-            block_highlight_text_color=LIGHT_ORANGE,
-            disable_drag=True,
-            highlight_color=[ORANGE, LIGHT_ORANGE],
-            highlight_method="line",
-            other_current_screen_border=LIGHT_ORANGE,
-            other_screen_border=LIGHT_ORANGE,
-            this_current_screen_border=LIGHT_ORANGE,
-            this_screen_border=LIGHT_ORANGE,
-            urgent_alert_method="text",
-            urgent_text=LIGHT_ORANGE,
-        )]
-
-    window_name = [
-        widget.WindowName(foreground=LIGHT_PURPLE),
-            ]
-    cpu = [
-        widget.Image(
-            filename=f"{ICON_PATH}speedometer.png", margin=6, background=DARKER_PURPLE
-        ),
-        widget.CPU(
-            background=DARKER_PURPLE,
-            foreground=LIGHT_ORANGE,
-            format="{load_percent}% ",
-        )]
-
-    thermo = [
-        widget.Image(
-            filename=f"{ICON_PATH}thermometer.png", margin=6, background=DARKER_PURPLE
-        ),
-        widget.ThermalSensor(
-            background=DARKER_PURPLE,
-            foreground=LIGHT_ORANGE,
-            tag_sensor="Tctl",
-            fmt="{}",
-        )]
-
-    memory = [
-        widget.Image(
-            filename=f"{ICON_PATH}encryption.png", margin=6, background=DARKER_PURPLE
-        ),
-        widget.Memory(
-            background=DARKER_PURPLE,
-            foreground=LIGHT_ORANGE,
-            format="{MemUsed: .2f}{mm}",
-            measure_mem="G"
-        )]
-
-    disk_space = [
-        widget.Image(
-            filename=f"{ICON_PATH}database.png", margin=6, background=DARKEST_PURPLE
-        ),
-        widget.DF(
-            background=DARKEST_PURPLE,
-            foreground=LIGHT_ORANGE,
-            visible_on_warn=False,
-            format="{f}/{s}{m}",
-        ),]
-    
-    sys_tray = [
-        widget.Systray(background=DARKEST_PURPLE),
-    ]
-    
-    clock = [
-        widget.Image(
-            filename=f"{ICON_PATH}clock-line.png", margin=6, background=DARKEST_PURPLE
-        ),
-        widget.Clock(
-            background=DARKEST_PURPLE,
-            foreground=LIGHT_ORANGE,
-            format="%H:%M",
-        )]
-    widgets = []
-    if group:
-        widgets.extend(group_layout)
-    if wname:
-        widgets.extend(window_name)
-    if cpu:
-        widgets.extend(cpu)
-    if therm:
-        widgets.extend(memory)
-    if mem:
-        widgets.extend(memory)
-    if dspace:
-        widgets.extend(disk_space)
-    if sys:
-        widgets.extend(sys_tray)
-    if clk:
-        widgets.extend(clock)
-
-    return widgets
-
-
-laptop_widgets = base_widgets()
-laptop_widgets.extend(
-    (
-        widget.Image(
-            filename=f"{ICON_PATH}battery-charging.png",
-            margin=6,
-            background=DARKEST_PURPLE,
-        ),
-        widget.Battery(background=DARKEST_PURPLE, foreground=LIGHT_ORANGE),
-        widget.Systray(background=DARKEST_PURPLE),
-    )
-)
+widgets_s1 = widgetmanager.configure(True, LAPTOP_MODE, smoothness=0)
+widgets_s2 = widgetmanager.configure(False, LAPTOP_MODE, wide=False, smoothness=10)
 
 screens = [
-    Screen(top=bar.Bar(base_widgets(sys=False), 25, opacity=0.9, background=DARK_PURPLE)),
-    Screen(top=bar.Bar(base_widgets(), 25, opacity=0.9, background=DARK_PURPLE)),
+    Screen(
+        top=bar.Bar(
+            widgets_s1,
+            25,
+            opacity=0.9,
+        )
+    ),
+    Screen(
+        top=bar.Bar(
+            widgets_s2,
+            25,
+            opacity=0.9,
+        )
+    ),
 ]
 
-# Drag floating layouts.
-mouse = [
-    Drag(
-        [mod],
-        "Button1",
-        lazy.window.set_position_floating(),
-        start=lazy.window.get_position(),
-    ),
-    Drag(
-        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
-    ),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
-]
-
+mouse = keymaps.mouse_bindings()
+floating_layout = layoutmanager.floating_layout()
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
-main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        {"wmclass": "confirm"},
-        {"wmclass": "dialog"},
-        {"wmclass": "download"},
-        {"wmclass": "error"},
-        {"wmclass": "file_progress"},
-        {"wmclass": "notification"},
-        {"wmclass": "splash"},
-        {"wmclass": "toolbar"},
-        {"wmclass": "confirmreset"},  # gitk
-        {"wmclass": "makebranch"},  # gitk
-        {"wmclass": "maketag"},  # gitk
-        {"wname": "branchdialog"},  # gitk
-        {"wname": "pinentry"},  # GPG key password entry
-        {"wmclass": "ssh-askpass"},  # ssh-askpass
-        {"wmclass": "ableton live 10 lite.exe"},  # ssh-askpass
-        {"wmclass": "pathofexile_x64.exe"},  # ssh-askpass
-        {"wname": "Input"},
-    ],
-    no_reposition_match=Match(title=["Input"]),
-)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
 
 
 @hook.subscribe.startup_once
@@ -366,27 +126,9 @@ def start_once():
     subprocess.call([home + "/.config/qtile/autostart.sh"])
 
 
-@hook.subscribe.startup
-def start_always():
-    libqtile.qtile.cmd_restart()
+# @hook.subscribe.layout_change
+# def current_layout_icon(_, group):
+#    cl = group.qtile.widgets_map['currentlayout']
+#    cl.fmt = '{}'.format(icons.get(cl.text, cl.text))
 
-
-# @libqtile.hook.subscribe.screen_change
-# def restart_on_randr(ev):
-#    libqtile.qtile.cmd_restart()
-
-
-# @hook.subscribe.client_new
-# def float_keepass(window):
-#     if window.window.get_name() == "KeePass":
-#         window.floating = True
-
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-# # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
