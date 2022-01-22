@@ -1,11 +1,11 @@
-from assets import colors
 from libqtile import layout
 from libqtile.config import Match
 
 
 class LayoutManager:
-    def __init__(self, groups):
+    def __init__(self, groups, colormanager):
         self.groups = groups
+        self.cm = colormanager
         self.vertical_layout(self.groups[0])
         self.matrix_layout(self.groups[9])
         self.default_layouts = [
@@ -14,8 +14,8 @@ class LayoutManager:
                 grow_amount=10,
                 insert_position=0,
                 split=True,
-                border_focus_stack=colors["normal"]["cyan"],
-                border_normal_stack=colors["normal"]["green"],
+                border_focus_stack=self.cm.active_stack_border.get_hex_l(),
+                border_normal_stack=self.cm.inactive_stack_border.get_hex_l(),
                 **self.base_theme()
             ),
             layout.Max(**self.base_theme()),
@@ -36,8 +36,8 @@ class LayoutManager:
         return {
             "border_width": border_width,
             "margin": margin,
-            "border_focus": colors["bright"]["white"],
-            "border_normal": colors["bright"]["black"],
+            "border_focus": self.cm.active_border.get_hex_l(),
+            "border_normal": self.cm.inactive_border.get_hex_l(),
         }
 
     def vertical_layout(self, group):
@@ -47,8 +47,8 @@ class LayoutManager:
                 grow_amount=10,
                 insert_position=0,
                 split=True,
-                border_focus_stack=colors["normal"]["cyan"],
-                border_normal_stack=colors["normal"]["green"],
+                border_focus_stack=self.cm.active_stack_border.get_hex_l(),
+                border_normal_stack=self.cm.inactive_stack_border.get_hex_l(),
                 **self.base_theme()
             ),
             layout.Max(**self.base_theme(1, 2)),
@@ -71,5 +71,7 @@ class LayoutManager:
                 Match(wm_class="ssh-askpass"),  # ssh-askpass
                 Match(title="branchdialog"),  # gitk
                 Match(title="pinentry"),  # GPG key password entry
-            ]
+            ],
+            border_focus=self.cm.active_border.get_hex_l(),
+            border_normal=self.cm.inactive_border.get_hex_l(),
         )

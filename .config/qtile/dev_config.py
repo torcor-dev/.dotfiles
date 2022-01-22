@@ -29,7 +29,7 @@
 from libqtile.config import Screen, Group
 from libqtile import bar, hook
 
-from assets import ColorManager
+from colors import ColorManager
 from keymaps import Keymaps
 from layouts import LayoutManager
 from widgets import WidgetManager
@@ -44,47 +44,22 @@ LAPTOP_MODE = False
 mod = "mod4"
 groups = [Group(i) for i in "1234567890"]
 
-color_schemes = {
-    "purp_x_red": {
-        "fg": "#ffffff",
-        "fg_alt": "#ffffff",
-        "bg_left": "#6502f9",
-        "bg_center": "#f90248",
-        "highlight": "#Ff8027",
-    },
-    "purplebones": {
-        "fg": "#ffffff",
-        "fg_alt": "#ffffff",
-        "bg_left": "#1B0014",
-        "bg_center": "#7f1f61",
-        "highlight": "#f90764",
-    },
-    "candy_pink": {
-        "fg": "#ffffff",
-        "fg_alt": "#ffffff",
-        "bg_left": "#f90764",
-        "bg_center": "#F24389",
-        "bg_right": "#FF65FA",
-        "highlight": "#f352ff",
-    },
-}
-
 # colormanager = ColorManager(**color_schemes["purp_x_red"])
 # colormanager = ColorManager(**color_schemes["purplebones"])
-colormanager = ColorManager(**color_schemes["candy_pink"])
+colormanager = ColorManager("candy_pink")
 
 keymaps = Keymaps(mod)
 keymaps.map_groups(groups)
 
 keys = keymaps.keys
 
-layoutmanager = LayoutManager(groups)
+layoutmanager = LayoutManager(groups, colormanager)
 layouts = layoutmanager.default_layouts
 
 widgetmanager = WidgetManager(colormanager, 10)
 widget_defaults = widgetmanager.widget_defaults()
 
-widgets_s1 = widgetmanager.configure(True, LAPTOP_MODE, smoothness=0)
+widgets_s1 = widgetmanager.configure(True, LAPTOP_MODE, smoothness=10)
 widgets_s2 = widgetmanager.configure(False, LAPTOP_MODE, wide=False, smoothness=10)
 
 screens = [

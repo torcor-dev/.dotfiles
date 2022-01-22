@@ -1,13 +1,9 @@
-from libqtile import widget
+from libqtile import widget, bar
 
 
 from user_widgets.cur_layout import CurrentLayout
 from user_widgets.rainbow_groupbox import GroupBoxRainbow
 from assets import icons
-
-
-def unpack(widgets):
-    return [widget for group in widgets for widget in group]
 
 
 class WidgetManager:
@@ -90,13 +86,18 @@ class WidgetManager:
 
         return center_widgets
 
-    def window_title(self):
+    def window_title(self, center=True):
+        if center:
+            width = bar.CALCULATED
+            widgets = [
+                widget.Spacer(),
+                widget.WindowName(width=width),
+                widget.Spacer(),
+                ]
+        else:
+            widgets = [widget.WindowName()]
         return WidgetGrouping(
-            [
-                widget.Spacer(),
-                widget.WindowName(),
-                widget.Spacer(),
-            ],
+            widgets,
             group_coloring=self.group_coloring,
         )
 
@@ -185,7 +186,7 @@ class WidgetManager:
             font="Source Code Pro",
             fontsize=16,
             padding=2,
-            foreground=self.cm.fg_light.get_hex_l(),
+            foreground=self.cm.fg.get_hex_l(),
             background=self.cm.bg_center.get_hex_l(),
         )
 
