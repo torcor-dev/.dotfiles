@@ -17,7 +17,7 @@ class ColorManager:
             "fg_alt": "#ffffff",
             "bg_left": "#6502f9",
             "bg_center": "#f90248",
-            "highlight": "#Ff8027",
+            "highlight": "#f352ff",
         },
         "purplebones": {
             "fg": "#ffffff",

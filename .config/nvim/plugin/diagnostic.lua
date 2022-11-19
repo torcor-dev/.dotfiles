@@ -1,4 +1,4 @@
-local nmap = require('tc.helpers.keymap').nmap
+local nmap = require('tc.helpers.keymap').wk_nmap
 
 vim.diagnostic.config {
   underline = true,
@@ -30,25 +30,33 @@ local goto_opts = {
   float = true,
 }
 
+local TAG = "Diagnostic"
+
 nmap {
-  "<leader>dn",
-  function ()
+  keys="<leader>dn",
+  action=function ()
     vim.diagnostic.goto_next(goto_opts)
   end,
+  name="Diagnostic: Next",
+  tag=TAG,
 }
 
 nmap {
-  "<leader>dp",
-  function ()
+  keys="<leader>dp",
+  action=function ()
     vim.diagnostic.goto_prev(goto_opts)
   end,
+  name="Diagnostic: Prev",
+  tag=TAG,
 }
 
 nmap {
-  "<leader>sl",
-  function ()
+  keys="<leader>dl",
+  action=function ()
     vim.diagnostic.open_float(0, {
       scope = "line",
     })
   end,
+  name="Diagnostic: Line",
+  tag=TAG,
 }

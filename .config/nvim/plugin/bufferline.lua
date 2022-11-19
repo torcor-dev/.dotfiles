@@ -12,8 +12,8 @@ require('bufferline').setup {
     },
     highlights = {
       fill = {
-        guifg = ""..palette.fg.."",
-        guibg = ""..palette.bbg.."",
+        fg = ""..palette.fg.."",
+        bg = ""..palette.bbg.."",
       },
       --background = {
       --  guifg = '#ffffff',

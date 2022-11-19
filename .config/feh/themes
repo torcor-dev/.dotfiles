@@ -1,1 +1,3 @@
-default --auto-zoom --image-bg "black" --on-last-slide resume --scale-down
+default --auto-zoom --image-bg=#68033c --on-last-slide resume --scale-down --output-dir=/home/fu/img/delete/
+
+

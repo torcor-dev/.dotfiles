@@ -6,21 +6,17 @@ vim.opt.shortmess:append "c"
 local lspkind = require "lspkind"
 lspkind.init()
 
-local cmp = require "cmp"
+local ok, cmp = pcall(require, "cmp")
+
+if not ok or cmp == nil then
+  return
+end
 
 cmp.setup {
   mapping = {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<c-y>"] = cmp.mapping(
-      cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Insert,
-        select = true,
-      },
-      { "i", "c" }
-    ),
-
     ["<c-space>"] = cmp.mapping {
       i = cmp.mapping.complete(),
       c = function(
@@ -35,29 +31,24 @@ cmp.setup {
         end
       end,
     },
-
-    -- ["<tab>"] = false,
     ["<tab>"] = cmp.config.disable,
-
-    ["<c-j>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    },
-    sources = {
-        --{ name = "gh_issues" },
-        { name = "nvim_lua" },
-        { name = "nvim_lsp" },
-        { name = "path" },
-        { name = "luasnip" },
-        { name = "buffer", keyword_length = 5 },
+    ["<c-n>"] = cmp.mapping.select_next_item { select = true, },
+    ["<c-y>"] = cmp.mapping.select_prev_item { select = true, },
+    ["<c-j>"] = cmp.mapping.confirm { select = true, },
+  },
+  sources = {
+    --{ name = "gh_issues" },
+    { name = "nvim_lsp" },
+    { name = "nvim_lua" },
+    { name = "path" },
+    { name = "luasnip" },
+    { name = "buffer", keyword_length = 5 },
   },
   snippet = {
     expand = function(args)
       require("luasnip").lsp_expand(args.body)
     end,
   },
-
   formatting = {
     format = lspkind.cmp_format {
       with_text = true,
@@ -72,10 +63,8 @@ cmp.setup {
       },
     },
   },
-  experimental = {
-    native_menu = false,
-  },
 }
+
 
 -- Add vim-dadbod-completion in sql files
 _ = vim.cmd [[
@@ -84,7 +73,6 @@ _ = vim.cmd [[
     autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
   augroup END
 ]]
-
 _ = vim.cmd [[
   augroup CmpZsh
     au!

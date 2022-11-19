@@ -91,9 +91,9 @@ class Keymaps:
                 start=lazy.window.get_size(),
             ),
             Click([self.mod, "shift"], "Button2", lazy.window.toggle_floating()),
-            Click(
-                [self.mod],
-                "Button1",
-                lazy.spawn("bash -c '/home/fu/.local/bin/logout_macro'"),
-            ),
+            #Click(
+            #    [self.mod],
+            #    "Button1",
+            #    lazy.spawn("bash -c '/home/fu/.local/bin/logout_macro'"),
+            #),
         ]

@@ -87,6 +87,8 @@ class WidgetManager:
         return center_widgets
 
     def window_title(self, center=True):
+        if not self.wide:
+            return WidgetGrouping([widget.Spacer()], group_coloring=self.group_coloring)
         if center:
             width = bar.CALCULATED
             widgets = [
@@ -109,7 +111,6 @@ class WidgetManager:
                 callback=lambda x: icons.get(x, x),
                 fontsize=24,
                 padding=width,
-                fmt="<big>{}</big>",
             ),
             GroupBoxRainbow(
                 disable_drag=True,
@@ -131,6 +132,8 @@ class WidgetManager:
         return WidgetGrouping(
             widget.ThermalSensor(
                 tag_sensor="Tctl",
+                threshold=80,
+                foreground_alert=self.cm.highlight.get_hex_l()
             ),
             icon("thermometer", size="small"),
             group_coloring=self.group_coloring,
@@ -200,7 +203,7 @@ def icon(name="", size="medium", **kwargs):
 
     return widget.TextBox(
         text=icons.get(name, ""),
-        fontsize=24,
+        fontsize=18,
         padding=2,
         fmt=fmt,
         **kwargs,

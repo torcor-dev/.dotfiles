@@ -110,7 +110,6 @@ export FZF_DEFAULT_OPTS=''
 export QT_QPA_PLATFORMTHEME=qt5ct
 export MANPAGER="nvim +Man!"
 export EDITOR="nvim"
-#
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -142,8 +141,18 @@ alias savess='xclip -selection clipboard -t image/jpeg -o > "`date +%Y-%m-%d_%H-
 
 bindkey '^f' fzf-cd-widget
 
+
+function projects {
+    cd $(fd .git$ ~/dev/ ~/.config/  --type=d --prune --hidden | xargs -I {} dirname {} | fzf)
+    zle accept-line
+    return 0
+}
+zle -N projects
+bindkey '^p' projects
+
 alias ls="exa"
 alias lsn="exa -snew -la"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
